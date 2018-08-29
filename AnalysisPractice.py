@@ -1,10 +1,15 @@
 import numpy as np
 import pandas as pd
 
-file = "./UCFDataSample.xlsx"
+# Change the file name of the Excel sheet under 'file_name'
+file_name = "UCFDataSample.xlsx"
+# The Excel file should be placed in the directory directly up the tree from this file
+file = "../" + file_name
+# Make sure to specify the correct sheet name
 sheet = "UCF Data Sample"
 
 data = pd.read_excel(file, sheet, index_col = None, header = 0, na_values = ['NA'])
+data = data.fillna(0)
 
 DN = data.loc[:,'DN']
 DIST = data.loc[:,'DIST']
