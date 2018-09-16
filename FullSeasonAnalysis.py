@@ -58,6 +58,8 @@ exp_run_results = []
 exp_pass_results = []
 negative_results = []
 shot_results = []
+redzone_results = []
+goalline_results = []
 third_down_results = []
 third_down_conversion_results = []
 third_down_stop_results = []
@@ -67,10 +69,12 @@ while i+1 < len(PLAY_NUM):
     yard_count = 0
     run_count = 0
     pass_count = 0
-    shot_count = 0
     exp_run_count = 0
     exp_pass_count = 0
-    negative_count = 0    
+    negative_count = 0
+    shot_count = 0
+    redzone_count = 0
+    goalline_count = 0
     third_down_count = 0
     third_down_conversion_count = 0
     third_down_stop_count = 0
@@ -89,6 +93,12 @@ while i+1 < len(PLAY_NUM):
                 shot_count += 1
             if GN_LS[i] >= 16:
                 exp_pass_count += 1
+
+        if YARD_LN[i] <= 25 and YARD_LN[i] > 0:
+            redzone_count += 1
+        
+        if YARD_LN[i] <= 5 and YARD_LN[i] > 0:
+            goalline_count += 1
 
         if DN[i] == 3:
             third_down_count += 1
@@ -147,6 +157,12 @@ while i+1 < len(PLAY_NUM):
             for x in range(shot_count):
                 shot_results.append(result)
 
+            for x in range(redzone_count):
+                redzone_results.append(result)
+
+            for x in range(goalline_count):
+                goalline_results.append(result)
+
             for x in range(third_down_count):
                 third_down_results.append(result)
 
@@ -169,6 +185,7 @@ print(drive_summary)
 
 
 print("\n\n\n\n******* EXPLOSIVE PLAY REPORT *******")
+
 run_plays = data.loc[data['PLAY TYPE'] == 'Run']
 explosive_runs = run_plays.loc[run_plays['GN/LS'] >= 12]
 explosive_runs = explosive_runs.reset_index()
@@ -231,6 +248,30 @@ shot_plays.insert(len(shot_plays.columns), 'DRIVE RESULT', shot_results)
 shot_plays = shot_plays.reset_index()
 del shot_plays['index']
 print(shot_plays)
+
+
+
+
+print("\n\n\n\n******* RED ZONE REPORT *******\n\n\n")
+
+plays_in_redzone = data.loc[data['YARD LN'] <= 25]
+plays_in_redzone = plays_in_redzone.loc[plays_in_redzone['YARD LN'] > 0]
+plays_in_redzone.insert(len(plays_in_redzone.columns), 'DRIVE RESULT', redzone_results)
+plays_in_redzone = plays_in_redzone.reset_index()
+del plays_in_redzone['index']
+print(plays_in_redzone)
+
+
+
+
+print("\n\n\n\n ******* GOAL LINE REPORT *******\n\n\n")
+
+plays_on_goalline = data.loc[data['YARD LN'] <= 5]
+plays_on_goalline = plays_on_goalline.loc[plays_on_goalline['YARD LN'] > 0]
+plays_on_goalline.insert(len(plays_on_goalline.columns), 'DRIVE RESULT', goalline_results)
+plays_on_goalline = plays_on_goalline.reset_index()
+del plays_on_goalline['index']
+print(plays_on_goalline)
 
 
 
