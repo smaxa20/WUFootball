@@ -191,7 +191,7 @@ print(got_first_down)
 
 
 
-print("******* FIRST DOWN *******")
+print("\n\n\n\n******* FIRST DOWN *******")
 
 if len(first_down) != 0:
     string = np.array(["Conversion Rate:", float(len(first_down_conversion)) / float(len(first_down))])
