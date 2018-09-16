@@ -1,8 +1,10 @@
 import numpy as np
 import pandas as pd
 
+pd.set_option('display.max_rows', 1000)
+
 # Change the file name of the Excel sheet under 'file_name'
-file_name = "LaVerne2018Breakdown.xlsx"
+file_name = "Chapman2018Breakdown.xlsx"
 # The Excel file should be placed in the directory directly up the tree from this file
 file = "../" + file_name
 # Make sure to specify the correct sheet name
@@ -76,6 +78,7 @@ while i+1 < len(PLAY_NUM):
         i += 1
         play_count += 1
         yard_count += GN_LS[i]
+
         if PLAY_TYPE[i] == 'Run':
             run_count += 1
             if GN_LS[i] >= 12:
@@ -86,17 +89,17 @@ while i+1 < len(PLAY_NUM):
                 shot_count += 1
             if GN_LS[i] >= 16:
                 exp_pass_count += 1
+
         if DN[i] == 3:
             third_down_count += 1
             if DIST[i] <= GN_LS[i]:
                 third_down_conversion_count += 1
             else:
                 third_down_stop_count += 1
-        if GN_LS[i] < 0:
-            negative_count += 1
-        if i+1 == len(PLAY_NUM) or PLAY_NUM[i+1] - PLAY_NUM[i] > 1:
-            result = RESULT[i]
-            if DN[i] == 4 and (result == 'Complete' or result == 'Incomplete' or result == 'Rush' or result == 'Scramble' or result == 'Penalty'):
+           
+        result = RESULT[i]
+        if i+1 == len(PLAY_NUM) or PLAY_NUM[i+1] - PLAY_NUM[i] > 1 or result == 'Fumble' or result == 'Complete, Fumble' or result == 'Rush, Fumble' or result == 'Sack, Fumble' or result == 'Scramble, Fumble' or result == 'Fumble, Def TD' or result == 'Complete, Fumble, Def TD' or result == 'Rush, Fumble, TD' or result == 'Sack, Fumble, Def TD' or result == 'Scramble, Fumble, Def TD' or result == 'Interception' or result == "interception, Def TD" or result == 'Sack, Safety' or result == 'Rush, Safety' or result == 'Complete, Safety' or result == 'Scramble, Safety':
+            if DN[i] == 4 and (result == 'Complete' or result == 'Incomplete' or result == 'Rush' or result == 'Scramble' or result == 'Penalty' or result == 'Sack'):
                 result = 'Downs'
             elif result == 'Complete, TD':
                 result = 'Pass TD'
@@ -104,15 +107,23 @@ while i+1 < len(PLAY_NUM):
                 result = 'Rush TD'
             elif result == 'Scramble, TD':
                 result = 'Scramble TD'
-            elif result == 'Complete' or result == 'Incomplete' or result == 'Rush' or result == 'Scramble' or result == 'Penalty':
+            elif result == 'Complete' or result == 'Incomplete' or result == 'Rush' or result == 'Scramble' or result == 'Penalty' or result == 'Sack':
                 result = 'Punt'
-            elif result == 'Complete, Fumble' or result == 'Rush, Fumble':
+            elif result == 'Fumble' or result == 'Complete, Fumble' or result == 'Rush, Fumble' or result == 'Sack, Fumble' or result == 'Scramble, Fumble':
                 result = 'Fumble'
-                negative_count += 1
+            elif result == 'Fumble, Def TD' or result == 'Complete, Fumble, Def TD' or result == 'Rush, Fumble, TD' or result == 'Sack, Fumble, Def TD' or result == 'Scramble, Fumble, Def TD':
+                result = 'Fumble, Def TD'
             elif result == 'Interception':
                 result = 'INT'
+            elif result == 'Interception, Def TD':
+                result = 'INT, Def TD'
+            elif result == 'Sack, Safety' or result == 'Rush, Safety' or result == 'Complete, Safety' or result == 'Scramble, Safety':
+                result = 'Safety'
+
+        if GN_LS[i] < 0 or result == 'Fumble' or result == 'Fumble, Def TD' or result == 'INT' or result == 'INT, Def TD' or result == 'Safety':
                 negative_count += 1
 
+        if i+1 == len(PLAY_NUM) or PLAY_NUM[i+1] - PLAY_NUM[i] > 1 or result == 'Fumble' or result == 'Complete, Fumble' or result == 'Rush, Fumble' or result == 'Sack, Fumble' or result == 'Scramble, Fumble' or result == 'Fumble, Def TD' or result == 'Complete, Fumble, Def TD' or result == 'Rush, Fumble, TD' or result == 'Sack, Fumble, Def TD' or result == 'Scramble, Fumble, Def TD' or result == 'Interception' or result == "interception, Def TD" or result == 'Sack, Safety' or result == 'Rush, Safety' or result == 'Complete, Safety' or result == 'Scramble, Safety':
             this_drive = {
                 'Play Count' : play_count,
                 'Avg yd/play' : round(yard_count/play_count,2),
@@ -180,10 +191,31 @@ print(explosive_passes)
 print("\n\n\n\n******* NEGATIVE PLAY REPORT *******\n\n\n")
 
 negative_plays = data.loc[data['GN/LS'] < 0]
-negative_plays = negative_plays.append(data.loc[data['RESULT'] == 'Complete, Fumble'])
-negative_plays = negative_plays.append(data.loc[data['RESULT'] == 'Rush, Fumble'])
-negative_plays = negative_plays.append(data.loc[data['RESULT'] == 'Interception'])
-negative_plays = negative_plays.sort_values('PLAY #')
+nonnegative_plays = data.loc[data['GN/LS'] >= 0]
+
+# Use nonnegative_plays here instead of data 
+# because we only want to add plays not previously added in the creation of negative_plays
+negative_plays = negative_plays.append(nonnegative_plays.loc[nonnegative_plays['RESULT'] == 'Fumble'])
+negative_plays = negative_plays.append(nonnegative_plays.loc[nonnegative_plays['RESULT'] == 'Complete, Fumble'])
+negative_plays = negative_plays.append(nonnegative_plays.loc[nonnegative_plays['RESULT'] == 'Rush, Fumble'])
+negative_plays = negative_plays.append(nonnegative_plays.loc[nonnegative_plays['RESULT'] == 'Sack, Fumble'])
+negative_plays = negative_plays.append(nonnegative_plays.loc[nonnegative_plays['RESULT'] == 'Scramble, Fumble'])
+
+negative_plays = negative_plays.append(nonnegative_plays.loc[nonnegative_plays['RESULT'] == 'Fumble, Def TD'])
+negative_plays = negative_plays.append(nonnegative_plays.loc[nonnegative_plays['RESULT'] == 'Complete, Fumble, Def TD'])
+negative_plays = negative_plays.append(nonnegative_plays.loc[nonnegative_plays['RESULT'] == 'Rush, Fumble, Def TD'])
+negative_plays = negative_plays.append(nonnegative_plays.loc[nonnegative_plays['RESULT'] == 'Sack, Fumble, Def TD'])
+negative_plays = negative_plays.append(nonnegative_plays.loc[nonnegative_plays['RESULT'] == 'Scramble, Fumble, Def TD'])
+
+negative_plays = negative_plays.append(nonnegative_plays.loc[nonnegative_plays['RESULT'] == 'Sack, Safety'])
+negative_plays = negative_plays.append(nonnegative_plays.loc[nonnegative_plays['RESULT'] == 'Rush, Safety'])
+negative_plays = negative_plays.append(nonnegative_plays.loc[nonnegative_plays['RESULT'] == 'Complete, Safety'])
+negative_plays = negative_plays.append(nonnegative_plays.loc[nonnegative_plays['RESULT'] == 'Scramble, Safety'])
+
+negative_plays = negative_plays.append(nonnegative_plays.loc[nonnegative_plays['RESULT'] == 'Interception'])
+negative_plays = negative_plays.append(nonnegative_plays.loc[nonnegative_plays['RESULT'] == 'Interception, Def TD'])
+
+negative_plays = negative_plays.sort_values( 'PLAY #')
 negative_plays = negative_plays.reset_index()
 del negative_plays['index']
 negative_plays.insert(len(negative_plays.columns), 'DRIVE RESULT', negative_results)
