@@ -131,7 +131,7 @@ while i+1 < len(PLAY_NUM):
                 'Pass' : pass_count,
                 'Exp\'s' : exp_run_count + exp_pass_count,
                 'Neg\'s' : negative_count,
-                'Opponent' : OPP_TEAM[i],
+                'OPP TEAM' : OPP_TEAM[i],
                 'End Result' : result
             }
 
@@ -160,7 +160,7 @@ while i+1 < len(PLAY_NUM):
             break
 
 drive_summary = pd.DataFrame.from_records(drive_summary)
-drive_summary = drive_summary[['Play Count', 'Avg yd/play', 'Run', 'Pass', 'Exp\'s', 'Neg\'s', 'Opponent', 'End Result']]
+drive_summary = drive_summary[['Play Count', 'Avg yd/play', 'Run', 'Pass', 'Exp\'s', 'Neg\'s', 'OPP TEAM', 'End Result']]
 drive_summary.reset_index()
 # del drive_summary['index']
 print(drive_summary)
