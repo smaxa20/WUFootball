@@ -4,9 +4,9 @@ import pandas as pd
 pd.set_option('display.max_rows', 1000)
 
 # Change the file name of the Excel sheet under 'file_name'
-file_name = "Chapman2018Breakdown.xlsx"
-# The Excel file should be placed in the directory directly up the tree from this file
-file = "../" + file_name
+file_name = "Linfield2018Breakdown.xlsx"
+# The Excel file should be placed in a file called 'Data' the directory directly up the tree from this file
+file = "../Data/" + file_name
 # Make sure to specify the correct sheet name
 sheet = "Sheet1"
 
