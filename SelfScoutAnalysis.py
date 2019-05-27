@@ -4,16 +4,17 @@ import pandas as pd
 pd.set_option('display.max_rows', 1000)
 
 # Change the file name of the Excel sheet under 'file_name'
-file_name = "Willamette2018Breakdown.xlsx"
+file_name = "Practice2019.xlsx"
 # The Excel file should be placed in a file called 'Data' the directory directly up the tree from this file
 file = "../Data/" + file_name
 # Make sure to specify the correct sheet name
-sheet = "Sheet1"
+sheet = "LaVerne Drives"
 
 data = pd.read_excel(file, sheet, index_col = None, header = 0, na_values = ' ')
 data = data.sort_values('PLAY #')
 data = data.reset_index()
 del data['index']
+data = data.dropna(how = 'all')
 data = data.fillna(0)
 
 # Uncomment if the Excel sheet is set up with extra, undesired columns
@@ -23,6 +24,7 @@ data = data.fillna(0)
 # for col_name in undesired_columns:
 #     del data[col_name]
 
+ODK = data.loc[:, 'ODK']
 PLAY_NUM = data.loc[:,'PLAY #']
 DN = data.loc[:,'DN']
 DIST = data.loc[:,'DIST']
@@ -101,10 +103,10 @@ while i+1 < len(PLAY_NUM):
             if GN_LS[i] >= 16:
                 exp_pass_count += 1
 
-        if YARD_LN[i] <= 25 and YARD_LN[i] > 0:
+        if YARD_LN[i] <= 25 and YARD_LN[i] > 0 and PLAY_TYPE[i] != 'Extra Pt.':
             redzone_count += 1
         
-        if YARD_LN[i] <= 5 and YARD_LN[i] > 0:
+        if YARD_LN[i] <= 5 and YARD_LN[i] > 0 and PLAY_TYPE[i] != 'Extra Pt.':
             goalline_count += 1
 
         if DN[i] == 3:
@@ -116,7 +118,9 @@ while i+1 < len(PLAY_NUM):
            
         result = RESULT[i]
         if i+1 == len(PLAY_NUM) or PLAY_NUM[i+1] - PLAY_NUM[i] > 1 or result == 'Fumble' or result == 'Complete, Fumble' or result == 'Rush, Fumble' or result == 'Sack, Fumble' or result == 'Scramble, Fumble' or result == 'Fumble, Def TD' or result == 'Complete, Fumble, Def TD' or result == 'Rush, Fumble, TD' or result == 'Sack, Fumble, Def TD' or result == 'Scramble, Fumble, Def TD' or result == 'Interception' or result == "interception, Def TD" or result == 'Sack, Safety' or result == 'Rush, Safety' or result == 'Complete, Safety' or result == 'Scramble, Safety':
-            if DN[i] == 4 and (result == 'Complete' or result == 'Incomplete' or result == 'Rush' or result == 'Scramble' or result == 'Penalty' or result == 'Sack'):
+            if i+1 == len(PLAY_NUM):
+                result = 'End of Game'
+            elif DN[i] == 4 and (result == 'Complete' or result == 'Incomplete' or result == 'Rush' or result == 'Scramble' or result == 'Penalty' or result == 'Sack'):
                 result = 'Downs'
             elif result == 'Complete, TD':
                 result = 'Pass TD'
@@ -124,8 +128,24 @@ while i+1 < len(PLAY_NUM):
                 result = 'Rush TD'
             elif result == 'Scramble, TD':
                 result = 'Scramble TD'
-            elif result == 'Complete' or result == 'Incomplete' or result == 'Rush' or result == 'Scramble' or result == 'Penalty' or result == 'Sack':
-                result = 'Punt'
+            elif result == 'Good' and PLAY_TYPE[i] == 'Extra Pt.':
+                if RESULT[i-1] == 'Complete, TD':
+                    result = 'Pass TD + PAT'
+                elif RESULT[i-1] == 'Rush, TD':
+                    result = 'Rush TD + PAT'
+                elif RESULT[i-1] == 'Scramble, TD':
+                    result = 'Scramble TD + PAT'
+            elif result == 'Miss' and PLAY_TYPE[i] == 'Extra Pt.':
+                if RESULT[i-1] == 'Complete, TD':
+                    result = 'Pass TD - PAT'
+                elif RESULT[i-1] == 'Rush, TD':
+                    result = 'Rush TD - PAT'
+                elif RESULT[i-1] == 'Scramble, TD':
+                    result = 'Scramble TD - PAT'
+            elif result == 'Good' and PLAY_TYPE[i] == 'FG':
+                result = 'Made FG'
+            elif result == 'Miss' and PLAY_TYPE[i] == 'FG':
+                result = 'Missed FG'
             elif result == 'Fumble' or result == 'Complete, Fumble' or result == 'Rush, Fumble' or result == 'Sack, Fumble' or result == 'Scramble, Fumble':
                 result = 'Fumble'
             elif result == 'Fumble, Def TD' or result == 'Complete, Fumble, Def TD' or result == 'Rush, Fumble, TD' or result == 'Sack, Fumble, Def TD' or result == 'Scramble, Fumble, Def TD':
@@ -136,11 +156,14 @@ while i+1 < len(PLAY_NUM):
                 result = 'INT, Def TD'
             elif result == 'Sack, Safety' or result == 'Rush, Safety' or result == 'Complete, Safety' or result == 'Scramble, Safety':
                 result = 'Safety'
+            elif PLAY_TYPE[i] == 'Punt':
+                result = 'Punt'
 
         if GN_LS[i] < 0 or result == 'Fumble' or result == 'Fumble, Def TD' or result == 'INT' or result == 'INT, Def TD' or result == 'Safety':
                 negative_count += 1
 
         if i+1 == len(PLAY_NUM) or PLAY_NUM[i+1] - PLAY_NUM[i] > 1 or result == 'Fumble' or result == 'Complete, Fumble' or result == 'Rush, Fumble' or result == 'Sack, Fumble' or result == 'Scramble, Fumble' or result == 'Fumble, Def TD' or result == 'Complete, Fumble, Def TD' or result == 'Rush, Fumble, TD' or result == 'Sack, Fumble, Def TD' or result == 'Scramble, Fumble, Def TD' or result == 'Interception' or result == "interception, Def TD" or result == 'Sack, Safety' or result == 'Rush, Safety' or result == 'Complete, Safety' or result == 'Scramble, Safety':
+        #if i+1 == len(PLAY_NUM) or PLAY_NUM[i+1] - PLAY_NUM[i] > 1 or ODK[i] == 'K':
             this_drive = {
                 'Play Count' : play_count,
                 'Avg yd/play' : round(yard_count/play_count,2),
@@ -148,7 +171,7 @@ while i+1 < len(PLAY_NUM):
                 'Pass' : pass_count,
                 'Exp\'s' : exp_run_count + exp_pass_count,
                 'Neg\'s' : negative_count,
-                'End Result' : result
+                'Drive Result' : result
             }
 
             for x in range(exp_run_count):
@@ -182,7 +205,7 @@ while i+1 < len(PLAY_NUM):
             break
 
 drive_summary = pd.DataFrame.from_records(drive_summary)
-drive_summary = drive_summary[['Play Count', 'Avg yd/play', 'Run', 'Pass', 'Exp\'s', 'Neg\'s', 'End Result']]
+drive_summary = drive_summary[['Play Count', 'Avg yd/play', 'Run', 'Pass', 'Exp\'s', 'Neg\'s', 'Drive Result']]
 drive_summary.reset_index()
 # del drive_summary['index']
 print(drive_summary)
@@ -262,6 +285,7 @@ print("\n\n\n\n******* RED ZONE REPORT *******\n\n\n")
 
 plays_in_redzone = data.loc[data['YARD LN'] <= 25]
 plays_in_redzone = plays_in_redzone.loc[plays_in_redzone['YARD LN'] > 0]
+plays_in_redzone = plays_in_redzone.loc[plays_in_redzone['PLAY TYPE'] != 'Extra Pt.']
 plays_in_redzone.insert(len(plays_in_redzone.columns), 'DRIVE RESULT', redzone_results)
 plays_in_redzone = plays_in_redzone.reset_index()
 del plays_in_redzone['index']
@@ -274,6 +298,7 @@ print("\n\n\n\n ******* GOAL LINE REPORT *******\n\n\n")
 
 plays_on_goalline = data.loc[data['YARD LN'] <= 5]
 plays_on_goalline = plays_on_goalline.loc[plays_on_goalline['YARD LN'] > 0]
+plays_on_goalline = plays_on_goalline.loc[plays_on_goalline['PLAY TYPE'] != 'Extra Pt.']
 plays_on_goalline.insert(len(plays_on_goalline.columns), 'DRIVE RESULT', goalline_results)
 plays_on_goalline = plays_on_goalline.reset_index()
 del plays_on_goalline['index']
@@ -292,8 +317,10 @@ print(' '.join(string))
 
 run_count = 0
 run_conversion_count = 0
-run_count += third_down.loc[third_down['PLAY TYPE'] == 'Run'].size / 9
-run_conversion_count += third_down_conversion.loc[third_down_conversion['PLAY TYPE'] == 'Run'].size / 9
+run_count += third_down.loc[third_down['PLAY TYPE'] == 'Run'].size / 11
+print(third_down.loc[third_down['PLAY TYPE'] == 'Run'].size)
+print(third_down.loc[third_down['PLAY TYPE'] == 'Run'])
+run_conversion_count += third_down_conversion.loc[third_down_conversion['PLAY TYPE'] == 'Run'].size / 11
 if run_count != 0:
     string = np.array(["Rushing Conversion Rate:", float(run_conversion_count) / float(run_count)])
 else:
@@ -302,8 +329,8 @@ print(' '.join(string))
 
 pass_count = 0
 pass_conversion_count = 0
-pass_count += third_down.loc[third_down['PLAY TYPE'] == 'Pass'].size / 9
-pass_conversion_count += third_down_conversion.loc[third_down_conversion['PLAY TYPE'] == 'Pass'].size / 9
+pass_count += third_down.loc[third_down['PLAY TYPE'] == 'Pass'].size / 11
+pass_conversion_count += third_down_conversion.loc[third_down_conversion['PLAY TYPE'] == 'Pass'].size / 11
 if pass_count != 0:
     string = np.array(["Passing Conversion Rate:", float(pass_conversion_count) / float(pass_count)])
 else:
@@ -320,12 +347,12 @@ string = np.array(["Total plays:", count])
 print(' '.join(string))
 
 run_count = 0
-run_count += third_down.loc[third_down['PLAY TYPE'] == 'Run'].size / 9
+run_count += third_down.loc[third_down['PLAY TYPE'] == 'Run'].size / 11
 string = np.array(["Run plays:", run_count])
 print(' '.join(string))
 
 pass_count = 0
-pass_count += third_down.loc[third_down['PLAY TYPE'] == 'Pass'].size / 9
+pass_count += third_down.loc[third_down['PLAY TYPE'] == 'Pass'].size / 11
 string = np.array(["Pass plays:", pass_count])
 print(' '.join(string))
 print('\n')
@@ -368,12 +395,12 @@ string = np.array(["Total plays:", count])
 print(' '.join(string))
 
 run_count = 0
-run_count += third_down_conversion.loc[third_down_conversion['PLAY TYPE'] == 'Run'].size / 9
+run_count += third_down_conversion.loc[third_down_conversion['PLAY TYPE'] == 'Run'].size / 11
 string = np.array(["Run plays:", run_count])
 print(' '.join(string))
 
 pass_count = 0
-pass_count += third_down_conversion.loc[third_down_conversion['PLAY TYPE'] == 'Pass'].size / 9
+pass_count += third_down_conversion.loc[third_down_conversion['PLAY TYPE'] == 'Pass'].size / 11
 string = np.array(["Pass plays:", pass_count])
 print(' '.join(string))
 print('\n')
@@ -416,12 +443,12 @@ string = np.array(["Total plays:", count])
 print(' '.join(string))
 
 run_count = 0
-run_count += third_down_stop.loc[third_down_stop['PLAY TYPE'] == 'Run'].size / 9
+run_count += third_down_stop.loc[third_down_stop['PLAY TYPE'] == 'Run'].size / 11
 string = np.array(["Run plays:", run_count])
 print(' '.join(string))
 
 pass_count = 0
-pass_count += third_down_stop.loc[third_down_stop['PLAY TYPE'] == 'Pass'].size / 9
+pass_count += third_down_stop.loc[third_down_stop['PLAY TYPE'] == 'Pass'].size / 11
 string = np.array(["Pass plays:", pass_count])
 print(' '.join(string))
 print('\n')
