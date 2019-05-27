@@ -4,7 +4,7 @@ import pandas as pd
 pd.set_option('display.max_rows', 1000)
 
 # Change the file name of the Excel sheet under 'file_name'
-file_name = "Pacific2018Breakdown.xlsx"
+file_name = "Willamette2018Breakdown.xlsx"
 # The Excel file should be placed in a file called 'Data' the directory directly up the tree from this file
 file = "../Data/" + file_name
 # Make sure to specify the correct sheet name
@@ -16,11 +16,12 @@ data = data.reset_index()
 del data['index']
 data = data.fillna(0)
 
-# Uncomment if the Excel sheet is set up with extra columns
-# Switch the values in extra_columns to the names of the extra columns
-#extra_columns = np.array(['ODK', 'DEF FRONT', 'BLITZ', 'comments', 'S ALIGN', 'COVERAGE', 'comments2', 'QTR', 'OPP TEAM'])
-#for col_name in extra_columns:
-#    del data[col_name]
+# Uncomment if the Excel sheet is set up with extra, undesired columns
+# Switch the values in undesired_columns to the names of the undesired columns
+
+# undesired_columns = np.array(['ODK'])
+# for col_name in undesired_columns:
+#     del data[col_name]
 
 PLAY_NUM = data.loc[:,'PLAY #']
 DN = data.loc[:,'DN']
