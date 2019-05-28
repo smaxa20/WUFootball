@@ -1,1 +1,1 @@
-# WUFootballAnalysis
+# Whitworth Football Analytics
