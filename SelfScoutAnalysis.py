@@ -17,7 +17,7 @@ del data['index']
 data = data.dropna(how = 'all')
 data = data.fillna(0)
 
-# Uncomment if the Excel sheet is set up with extra, undesired columns
+# Uncomment below if the Excel sheet is set up with extra, undesired columns
 # Switch the values in undesired_columns to the names of the undesired columns
 
 # undesired_columns = np.array(['ODK'])
@@ -328,22 +328,16 @@ else:
     string = np.array(["Conversion Rate: 0.0"])
 print(' '.join(string))
 
-run_count = 0
-run_conversion_count = 0
-run_count += third_down.loc[third_down['PLAY TYPE'] == 'Run'].size / 11
-print(third_down.loc[third_down['PLAY TYPE'] == 'Run'].size)
-print(third_down.loc[third_down['PLAY TYPE'] == 'Run'])
-run_conversion_count += third_down_conversion.loc[third_down_conversion['PLAY TYPE'] == 'Run'].size / 11
+run_count = third_down.loc[third_down['PLAY TYPE'] == 'Run'].size / 11
+run_conversion_count = third_down_conversion.loc[third_down_conversion['PLAY TYPE'] == 'Run'].size / 11
 if run_count != 0:
     string = np.array(["Rushing Conversion Rate:", float(run_conversion_count) / float(run_count)])
 else:
     string = np.array(["Rushing Conversion Rate: 0.0"])
 print(' '.join(string))
 
-pass_count = 0
-pass_conversion_count = 0
-pass_count += third_down.loc[third_down['PLAY TYPE'] == 'Pass'].size / 11
-pass_conversion_count += third_down_conversion.loc[third_down_conversion['PLAY TYPE'] == 'Pass'].size / 11
+pass_count = third_down.loc[third_down['PLAY TYPE'] == 'Pass'].size / 11
+pass_conversion_count = third_down_conversion.loc[third_down_conversion['PLAY TYPE'] == 'Pass'].size / 11
 if pass_count != 0:
     string = np.array(["Passing Conversion Rate:", float(pass_conversion_count) / float(pass_count)])
 else:
@@ -354,18 +348,15 @@ print('\n\n')
 
 print("TOTAL\n")
 
-count = 0
-count += len(third_down)
+count = len(third_down)
 string = np.array(["Total plays:", count])
 print(' '.join(string))
 
-run_count = 0
-run_count += third_down.loc[third_down['PLAY TYPE'] == 'Run'].size / 11
+run_count = third_down.loc[third_down['PLAY TYPE'] == 'Run'].size / 11
 string = np.array(["Run plays:", run_count])
 print(' '.join(string))
 
-pass_count = 0
-pass_count += third_down.loc[third_down['PLAY TYPE'] == 'Pass'].size / 11
+pass_count = third_down.loc[third_down['PLAY TYPE'] == 'Pass'].size / 11
 string = np.array(["Pass plays:", pass_count])
 print(' '.join(string))
 print('\n')
@@ -402,18 +393,15 @@ else:
 
 print("\n\n\n******* GAINED FIRST DOWN *******\n")
 
-count = 0
-count += len(third_down_conversion)
+count = len(third_down_conversion)
 string = np.array(["Total plays:", count])
 print(' '.join(string))
 
-run_count = 0
-run_count += third_down_conversion.loc[third_down_conversion['PLAY TYPE'] == 'Run'].size / 11
+run_count = third_down_conversion.loc[third_down_conversion['PLAY TYPE'] == 'Run'].size / 11
 string = np.array(["Run plays:", run_count])
 print(' '.join(string))
 
-pass_count = 0
-pass_count += third_down_conversion.loc[third_down_conversion['PLAY TYPE'] == 'Pass'].size / 11
+pass_count = third_down_conversion.loc[third_down_conversion['PLAY TYPE'] == 'Pass'].size / 11
 string = np.array(["Pass plays:", pass_count])
 print(' '.join(string))
 print('\n')
@@ -450,18 +438,15 @@ else:
 
 print("\n\n\n******* STOPPED SHORT *******\n")
 
-count = 0
-count += len(third_down_stop)
+count = len(third_down_stop)
 string = np.array(["Total plays:", count])
 print(' '.join(string))
 
-run_count = 0
-run_count += third_down_stop.loc[third_down_stop['PLAY TYPE'] == 'Run'].size / 11
+run_count = third_down_stop.loc[third_down_stop['PLAY TYPE'] == 'Run'].size / 11
 string = np.array(["Run plays:", run_count])
 print(' '.join(string))
 
-pass_count = 0
-pass_count += third_down_stop.loc[third_down_stop['PLAY TYPE'] == 'Pass'].size / 11
+pass_count = third_down_stop.loc[third_down_stop['PLAY TYPE'] == 'Pass'].size / 11
 string = np.array(["Pass plays:", pass_count])
 print(' '.join(string))
 print('\n')
@@ -506,22 +491,16 @@ else:
     string = np.array(["Conversion Rate: 0.0"])
 print(' '.join(string))
 
-run_count = 0
-run_conversion_count = 0
-run_count += fourth_down.loc[fourth_down['PLAY TYPE'] == 'Run'].size / 11
-print(fourth_down.loc[fourth_down['PLAY TYPE'] == 'Run'].size)
-print(fourth_down.loc[fourth_down['PLAY TYPE'] == 'Run'])
-run_conversion_count += fourth_down_conversion.loc[fourth_down_conversion['PLAY TYPE'] == 'Run'].size / 11
+run_count = fourth_down.loc[fourth_down['PLAY TYPE'] == 'Run'].size / 11
+run_conversion_count = fourth_down_conversion.loc[fourth_down_conversion['PLAY TYPE'] == 'Run'].size / 11
 if run_count != 0:
     string = np.array(["Rushing Conversion Rate:", float(run_conversion_count) / float(run_count)])
 else:
     string = np.array(["Rushing Conversion Rate: 0.0"])
 print(' '.join(string))
 
-pass_count = 0
-pass_conversion_count = 0
-pass_count += fourth_down.loc[fourth_down['PLAY TYPE'] == 'Pass'].size / 11
-pass_conversion_count += fourth_down_conversion.loc[fourth_down_conversion['PLAY TYPE'] == 'Pass'].size / 11
+pass_count = fourth_down.loc[fourth_down['PLAY TYPE'] == 'Pass'].size / 11
+pass_conversion_count = fourth_down_conversion.loc[fourth_down_conversion['PLAY TYPE'] == 'Pass'].size / 11
 if pass_count != 0:
     string = np.array(["Passing Conversion Rate:", float(pass_conversion_count) / float(pass_count)])
 else:
@@ -532,18 +511,15 @@ print('\n\n')
 
 print("TOTAL\n")
 
-count = 0
-count += len(fourth_down)
+count = len(fourth_down)
 string = np.array(["Total plays:", count])
 print(' '.join(string))
 
-run_count = 0
-run_count += fourth_down.loc[fourth_down['PLAY TYPE'] == 'Run'].size / 11
+run_count = fourth_down.loc[fourth_down['PLAY TYPE'] == 'Run'].size / 11
 string = np.array(["Run plays:", run_count])
 print(' '.join(string))
 
-pass_count = 0
-pass_count += fourth_down.loc[fourth_down['PLAY TYPE'] == 'Pass'].size / 11
+pass_count = fourth_down.loc[fourth_down['PLAY TYPE'] == 'Pass'].size / 11
 string = np.array(["Pass plays:", pass_count])
 print(' '.join(string))
 print('\n')
@@ -580,18 +556,15 @@ else:
 
 print("\n\n\n******* GAINED FIRST DOWN *******\n")
 
-count = 0
-count += len(fourth_down_conversion)
+count = len(fourth_down_conversion)
 string = np.array(["Total plays:", count])
 print(' '.join(string))
 
-run_count = 0
-run_count += fourth_down_conversion.loc[fourth_down_conversion['PLAY TYPE'] == 'Run'].size / 11
+run_count = fourth_down_conversion.loc[fourth_down_conversion['PLAY TYPE'] == 'Run'].size / 11
 string = np.array(["Run plays:", run_count])
 print(' '.join(string))
 
-pass_count = 0
-pass_count += fourth_down_conversion.loc[fourth_down_conversion['PLAY TYPE'] == 'Pass'].size / 11
+pass_count = fourth_down_conversion.loc[fourth_down_conversion['PLAY TYPE'] == 'Pass'].size / 11
 string = np.array(["Pass plays:", pass_count])
 print(' '.join(string))
 print('\n')
@@ -628,18 +601,15 @@ else:
 
 print("\n\n\n******* STOPPED SHORT *******\n")
 
-count = 0
-count += len(fourth_down_stop)
+count = len(fourth_down_stop)
 string = np.array(["Total plays:", count])
 print(' '.join(string))
 
-run_count = 0
-run_count += fourth_down_stop.loc[fourth_down_stop['PLAY TYPE'] == 'Run'].size / 11
+run_count = fourth_down_stop.loc[fourth_down_stop['PLAY TYPE'] == 'Run'].size / 11
 string = np.array(["Run plays:", run_count])
 print(' '.join(string))
 
-pass_count = 0
-pass_count += fourth_down_stop.loc[fourth_down_stop['PLAY TYPE'] == 'Pass'].size / 11
+pass_count = fourth_down_stop.loc[fourth_down_stop['PLAY TYPE'] == 'Pass'].size / 11
 string = np.array(["Pass plays:", pass_count])
 print(' '.join(string))
 print('\n')
