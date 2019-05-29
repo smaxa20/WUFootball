@@ -25,15 +25,39 @@ data = data.fillna(0)
 #     del data[col_name]
 
 ODK = data.loc[:, 'ODK']
-PLAY_NUM = data.loc[:,'PLAY #']
-DN = data.loc[:,'DN']
-DIST = data.loc[:,'DIST']
-YARD_LN = data.loc[:,'YARD LN']
+PLAY_NUM = data.loc[:,'PLAY #'].astype('int32')
+DN = data.loc[:,'DN'].astype('int32')
+DIST = data.loc[:,'DIST'].astype('int32')
+HASH = data.loc[:,'HASH']
+YARD_LN = data.loc[:,'YARD LN'].astype('int32')
 PLAY_TYPE = data.loc[:,'PLAY TYPE']
-GN_LS = data.loc[:,'GN/LS']
+GN_LS = data.loc[:,'GN/LS'].astype('int32')
 RESULT = data.loc[:,'RESULT']
 OFF_FORM = data.loc[:,'OFF FORM']
 OFF_PLAY = data.loc[:,'OFF PLAY']
+
+# This loop and the astype functions above convert all of the numerical data from floats to ints
+new_data = []
+i = 0
+while i < len(PLAY_NUM):
+    row = {
+        'ODK' : ODK[i],
+        'PLAY #' : PLAY_NUM[i],
+        'DN' : DN[i],
+        'DIST' : DIST[i],
+        'HASH' : HASH[i],
+        'YARD LN' : YARD_LN[i],
+        'PLAY TYPE' : PLAY_TYPE[i],
+        'GN/LS' : GN_LS[i],
+        'RESULT' : RESULT[i],
+        'OFF FORM' : OFF_FORM[i],
+        'OFF PLAY' : OFF_PLAY[i]
+    }
+    new_data.append(row)
+    i += 1
+data = pd.DataFrame.from_records(new_data)
+data = data[['ODK', 'PLAY #', 'DN', 'DIST', 'HASH', 'YARD LN', 'PLAY TYPE', 'GN/LS', 'RESULT', 'OFF FORM', 'OFF PLAY']]
+
 
 got_first_down = data.loc[data['GN/LS'] >= data['DIST']]
 not_first_down = data.loc[data['GN/LS'] < data['DIST']]
@@ -170,7 +194,7 @@ while i+1 < len(PLAY_NUM):
         if i+1 == len(PLAY_NUM) or PLAY_NUM[i+1] - PLAY_NUM[i] > 1 or result == 'Fumble' or result == 'Complete, Fumble' or result == 'Rush, Fumble' or result == 'Sack, Fumble' or result == 'Scramble, Fumble' or result == 'Fumble, Def TD' or result == 'Complete, Fumble, Def TD' or result == 'Rush, Fumble, TD' or result == 'Sack, Fumble, Def TD' or result == 'Scramble, Fumble, Def TD' or result == 'Interception' or result == "interception, Def TD" or result == 'Sack, Safety' or result == 'Rush, Safety' or result == 'Complete, Safety' or result == 'Scramble, Safety':
             this_drive = {
                 'Play Count' : play_count,
-                'Avg yd/play' : round(yard_count/play_count,2),
+                'Avg yd/play' : np.around(yard_count/play_count,2),
                 'Run' : run_count,
                 'Pass' : pass_count,
                 'Exp\'s' : exp_run_count + exp_pass_count,
