@@ -187,9 +187,13 @@ while i+1 < len(PLAY_NUM):
                 result = 'Safety'
             elif PLAY_TYPE[i] == 'Punt':
                 result = 'Punt'
+            elif PLAY_TYPE[i] == 'KO':
+                result = RESULT[i-1]
 
-        if GN_LS[i] < 0 or result == 'Fumble' or result == 'Fumble, Def TD' or result == 'INT' or result == 'INT, Def TD' or result == 'Safety':
-                negative_count += 1
+            RESULT[i] = result
+
+        if (GN_LS[i] < 0 or result == 'Fumble' or result == 'Fumble, Def TD' or result == 'INT' or result == 'INT, Def TD' or result == 'Safety') and ODK[i] == 'O':
+            negative_count += 1
 
         if i+1 == len(PLAY_NUM) or PLAY_NUM[i+1] - PLAY_NUM[i] > 1 or result == 'Fumble' or result == 'Complete, Fumble' or result == 'Rush, Fumble' or result == 'Sack, Fumble' or result == 'Scramble, Fumble' or result == 'Fumble, Def TD' or result == 'Complete, Fumble, Def TD' or result == 'Rush, Fumble, TD' or result == 'Sack, Fumble, Def TD' or result == 'Scramble, Fumble, Def TD' or result == 'Interception' or result == "interception, Def TD" or result == 'Sack, Safety' or result == 'Rush, Safety' or result == 'Complete, Safety' or result == 'Scramble, Safety':
             this_drive = {
@@ -197,8 +201,8 @@ while i+1 < len(PLAY_NUM):
                 'Avg yd/play' : np.around(yard_count/play_count,2),
                 'Run' : run_count,
                 'Pass' : pass_count,
-                'Exp\'s' : exp_run_count + exp_pass_count,
-                'Neg\'s' : negative_count,
+                'Explosives' : exp_run_count + exp_pass_count,
+                'Negatives' : negative_count,
                 'Drive Result' : result
             }
 
@@ -242,7 +246,7 @@ while i+1 < len(PLAY_NUM):
             break
 
 drive_summary = pd.DataFrame.from_records(drive_summary)
-drive_summary = drive_summary[['Play Count', 'Avg yd/play', 'Run', 'Pass', 'Exp\'s', 'Neg\'s', 'Drive Result']]
+drive_summary = drive_summary[['Play Count', 'Avg yd/play', 'Run', 'Pass', 'Explosives', 'Negatives', 'Drive Result']]
 drive_summary.reset_index()
 # del drive_summary['index']
 print(drive_summary)
