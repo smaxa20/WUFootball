@@ -291,3 +291,29 @@ negative_plays = negative_plays.reset_index()
 del negative_plays['index']
 negative_plays.insert(len(negative_plays.columns), 'DRIVE RESULT', negative_results)
 print(negative_plays)
+
+
+
+
+print("\n\n\n\n******* EXPLOSIVE PLAY REPORT *******")
+
+run_plays = data.loc[data['PLAY TYPE'] == 'Run']
+run_plays = run_plays.loc[run_plays['GN/LS'] <= 110]
+explosive_runs = run_plays.loc[run_plays['GN/LS'] >= 12]
+explosive_runs = explosive_runs.reset_index()
+del explosive_runs['index']
+pass_plays = data.loc[data['PLAY TYPE'] == 'Pass']
+pass_plays = pass_plays.loc[pass_plays['RESULT'] != 'Interception']
+pass_plays = pass_plays.loc[pass_plays['RESULT'] != 'Interception, Def TD']
+pass_plays = pass_plays.loc[pass_plays['GN/LS'] <= 110]
+explosive_passes = pass_plays.loc[pass_plays['GN/LS'] >= 16]
+explosive_passes = explosive_passes.reset_index()
+del explosive_passes['index']
+explosive_runs.insert(len(explosive_runs.columns), 'DRIVE RESULT', exp_run_results)
+explosive_passes.insert(len(explosive_passes.columns), 'DRIVE RESULT', exp_pass_results)
+
+print("\n\n\n******* RUN PLAYS *******")
+print(explosive_runs)
+
+print("\n\n\n******* PASS PLAYS *******")
+print(explosive_passes)
