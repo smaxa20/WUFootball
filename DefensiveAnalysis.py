@@ -317,3 +317,14 @@ print(explosive_runs)
 
 print("\n\n\n******* PASS PLAYS *******")
 print(explosive_passes)
+
+
+
+
+print("\n\n\n\n******* SHOT PLAY REPORT *******\n\n\n")
+
+shot_plays = pass_plays.loc[pass_plays['GN/LS'] >= 20]
+shot_plays.insert(len(shot_plays.columns), 'DRIVE RESULT', shot_results)
+shot_plays = shot_plays.reset_index()
+del shot_plays['index']
+print(shot_plays)
