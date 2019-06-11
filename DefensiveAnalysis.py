@@ -11,7 +11,6 @@ file = "../Data/" + file_name
 sheet = "Fox Scout Data"
 
 data = pd.read_excel(file, sheet, index_col = None, header = 0, na_values = ' ')
-data = data.sort_values('PLAY #')
 data = data.reset_index()
 del data['index']
 data = data.dropna(how = 'all')
