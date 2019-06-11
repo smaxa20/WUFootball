@@ -116,9 +116,15 @@ while down < 5:
     while safety < 4:
         percentage = str(np.around(float(len(down_data.loc[down_data['S ALIGN'] == safety])) / float(size) * 100, 2))
         if safety == 1:
-            row['1 Safety'] = str(len(down_data.loc[down_data['S ALIGN'] == safety])) + '/' + str(size) + ' = ' + percentage + '%'
+            if float(percentage) == 0:
+                row['1 Safety'] = '--'
+            else:
+                row['1 Safety'] = percentage + '% (' + str(len(down_data.loc[down_data['S ALIGN'] == safety])) + '/' + str(size) + ')'
         else:
-            row[str(safety) + ' Safeties'] = str(len(down_data.loc[down_data['S ALIGN'] == safety])) + '/' + str(size) + ' = ' + percentage + '%'
+            if float(percentage) == 0:
+                row[str(safety) + ' Safeties'] = '--'
+            else:
+                row[str(safety) + ' Safeties'] = percentage + '% (' + str(len(down_data.loc[down_data['S ALIGN'] == safety])) + '/' + str(size) + ')'
         safety += 1
     safety_alignment_report.append(row)
     down += 1
@@ -152,9 +158,15 @@ while coverage < 9:
     while safety < 4:
         percentage = str(np.around(float(len(data.loc[data['S ALIGN'] == safety].loc[data.loc[data['S ALIGN'] == safety]['COVERAGE'] == new_coverage])) / float(len(data.loc[data['S ALIGN'] == safety])) * 100, 2))
         if safety == 1:
-            row['1 Safety'] = str(len(data.loc[data['S ALIGN'] == safety].loc[data.loc[data['S ALIGN'] == safety]['COVERAGE'] == new_coverage])) + '/' + str(len(data.loc[data['S ALIGN'] == safety])) + ' = ' + percentage + '%'
+            if float(percentage) == 0:
+                row['1 Safety'] = '--'
+            else:
+                row['1 Safety'] = percentage + '% (' + str(len(data.loc[data['S ALIGN'] == safety].loc[data.loc[data['S ALIGN'] == safety]['COVERAGE'] == new_coverage])) + '/' + str(len(data.loc[data['S ALIGN'] == safety])) + ')'
         else:
-            row[str(safety) + ' Safeties'] = str(len(data.loc[data['S ALIGN'] == safety].loc[data.loc[data['S ALIGN'] == safety]['COVERAGE'] == new_coverage])) + '/' + str(len(data.loc[data['S ALIGN'] == safety])) + ' = ' + percentage + '%'
+            if float(percentage) == 0:
+                row[str(safety) + ' Safeties'] = '--'
+            else:
+                row[str(safety) + ' Safeties'] = percentage + '% (' + str(len(data.loc[data['S ALIGN'] == safety].loc[data.loc[data['S ALIGN'] == safety]['COVERAGE'] == new_coverage])) + '/' + str(len(data.loc[data['S ALIGN'] == safety])) + ')'
         safety += 1
     coverage_report.append(row)
     coverage += 1
