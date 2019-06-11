@@ -290,6 +290,7 @@ negative_plays = negative_plays.sort_values( 'PLAY #')
 negative_plays = negative_plays.reset_index()
 del negative_plays['index']
 negative_plays.insert(len(negative_plays.columns), 'DRIVE RESULT', negative_results)
+negative_plays = negative_plays.replace(1001, '--')
 print(negative_plays)
 
 
@@ -310,7 +311,9 @@ explosive_passes = pass_plays.loc[pass_plays['GN/LS'] >= 16]
 explosive_passes = explosive_passes.reset_index()
 del explosive_passes['index']
 explosive_runs.insert(len(explosive_runs.columns), 'DRIVE RESULT', exp_run_results)
+explosive_runs = explosive_runs.replace(1001, '--')
 explosive_passes.insert(len(explosive_passes.columns), 'DRIVE RESULT', exp_pass_results)
+explosive_passes = explosive_passes.replace(1001, '--')
 
 print("\n\n\n******* RUN PLAYS *******")
 print(explosive_runs)
@@ -327,4 +330,5 @@ shot_plays = pass_plays.loc[pass_plays['GN/LS'] >= 20]
 shot_plays.insert(len(shot_plays.columns), 'DRIVE RESULT', shot_results)
 shot_plays = shot_plays.reset_index()
 del shot_plays['index']
+shot_plays = shot_plays.replace(1001, '--')
 print(shot_plays)
