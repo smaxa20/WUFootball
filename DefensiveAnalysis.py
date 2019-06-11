@@ -173,3 +173,121 @@ while coverage < 9:
 coverage_report = pd.DataFrame.from_records(coverage_report)
 coverage_report = coverage_report[['Coverage', '0 Safeties', '1 Safety', '2 Safeties', '3 Safeties']]
 print(coverage_report)
+
+
+
+
+negative_results = []
+exp_pass_results = []
+exp_run_results = []
+shot_results = []
+g_negative_count = 0
+i = -1
+while i+1 < len(PLAY_NUM):
+    negative_count = 0
+    exp_pass_count = 0
+    exp_run_count = 0
+    shot_count = 0
+    while True:
+        i += 1
+        result = RESULT[i]
+        if i+1 == len(PLAY_NUM) or PLAY_NUM[i+1] - PLAY_NUM[i] > 1 or result == 'Fumble' or result == 'Complete, Fumble' or result == 'Rush, Fumble' or result == 'Sack, Fumble' or result == 'Scramble, Fumble' or result == 'Fumble, Def TD' or result == 'Complete, Fumble, Def TD' or result == 'Rush, Fumble, TD' or result == 'Sack, Fumble, Def TD' or result == 'Scramble, Fumble, Def TD' or result == 'Interception' or result == "interception, Def TD" or result == 'Sack, Safety' or result == 'Rush, Safety' or result == 'Complete, Safety' or result == 'Scramble, Safety':
+            if DN[i] == 4 and (result == 'Complete' or result == 'Incomplete' or result == 'Rush' or result == 'Scramble' or result == 'Penalty' or result == 'Sack'):
+                result = 'Downs'
+            elif result == 'Complete, TD':
+                result = 'Pass TD'
+            elif result == 'Rush, TD':
+                result = 'Rush TD'
+            elif result == 'Scramble, TD':
+                result = 'Scramble TD'
+            elif result == 'Good' and PLAY_TYPE[i] == 'Extra Pt.':
+                if RESULT[i-1] == 'Complete, TD':
+                    result = 'Pass TD + PAT'
+                elif RESULT[i-1] == 'Rush, TD':
+                    result = 'Rush TD + PAT'
+                elif RESULT[i-1] == 'Scramble, TD':
+                    result = 'Scramble TD + PAT'
+            elif result == 'Miss' and PLAY_TYPE[i] == 'Extra Pt.':
+                if RESULT[i-1] == 'Complete, TD':
+                    result = 'Pass TD - PAT'
+                elif RESULT[i-1] == 'Rush, TD':
+                    result = 'Rush TD - PAT'
+                elif RESULT[i-1] == 'Scramble, TD':
+                    result = 'Scramble TD - PAT'
+            elif result == 'Good' and PLAY_TYPE[i] == 'FG':
+                result = 'Made FG'
+            elif result == 'Miss' and PLAY_TYPE[i] == 'FG':
+                result = 'Missed FG'
+            elif result == 'Fumble' or result == 'Complete, Fumble' or result == 'Rush, Fumble' or result == 'Sack, Fumble' or result == 'Scramble, Fumble':
+                result = 'Fumble'
+            elif result == 'Fumble, Def TD' or result == 'Complete, Fumble, Def TD' or result == 'Rush, Fumble, TD' or result == 'Sack, Fumble, Def TD' or result == 'Scramble, Fumble, Def TD':
+                result = 'Fumble, Def TD'
+            elif result == 'Interception':
+                result = 'INT'
+            elif result == 'Interception, Def TD':
+                result = 'INT, Def TD'
+            elif result == 'Sack, Safety' or result == 'Rush, Safety' or result == 'Complete, Safety' or result == 'Scramble, Safety':
+                result = 'Safety'
+            elif PLAY_TYPE[i] == 'Punt':
+                result = 'Punt'
+            elif PLAY_TYPE[i] == 'KO':
+                result = RESULT[i-1]
+                
+        # if (GN_LS[i] <= 0 or result == 'Fumble' or result == 'Fumble, Def TD' or result == 'INT' or result == 'INT, Def TD' or result == 'Safety') and ODK[i] == 'O':
+        if GN_LS[i] < 0 or result == 'Fumble' or result == 'Fumble, Def TD' or result == 'INT' or result == 'INT, Def TD' or result == 'Safety':
+            negative_count += 1
+            g_negative_count += 1
+        elif GN_LS[i] >= 16 and PLAY_TYPE[i] == 'Pass':
+            exp_pass_count += 1
+            if GN_LS[i] >= 20:
+                shot_count += 1
+        elif GN_LS[i] >= 12 and PLAY_TYPE[i] == 'Run':
+            exp_run_count += 1
+
+        if i+1 == len(PLAY_NUM) or PLAY_NUM[i+1] - PLAY_NUM[i] > 1 or result == 'Fumble' or result == 'Complete, Fumble' or result == 'Rush, Fumble' or result == 'Sack, Fumble' or result == 'Scramble, Fumble' or result == 'Fumble, Def TD' or result == 'Complete, Fumble, Def TD' or result == 'Rush, Fumble, TD' or result == 'Sack, Fumble, Def TD' or result == 'Scramble, Fumble, Def TD' or result == 'Interception' or result == "interception, Def TD" or result == 'Sack, Safety' or result == 'Rush, Safety' or result == 'Complete, Safety' or result == 'Scramble, Safety':
+            for x in range(negative_count):
+                negative_results.append(result)
+            for x in range(exp_pass_count):
+                exp_pass_results.append(result)
+            for x in range(exp_run_count):
+                exp_run_results.append(result)
+            for x in range(shot_count):
+                shot_results.append(result)
+            break
+
+
+
+
+
+print("\n\n\n\n******* NEGATIVE PLAY REPORT *******\n\n\n")
+
+negative_plays = data.loc[data['GN/LS'] < 0]
+nonnegative_plays = data.loc[data['GN/LS'] >= 0]
+
+# Use nonnegative_plays here instead of data 
+# because we only want to add plays not previously added in the creation of negative_plays
+negative_plays = negative_plays.append(nonnegative_plays.loc[nonnegative_plays['RESULT'] == 'Fumble'])
+negative_plays = negative_plays.append(nonnegative_plays.loc[nonnegative_plays['RESULT'] == 'Complete, Fumble'])
+negative_plays = negative_plays.append(nonnegative_plays.loc[nonnegative_plays['RESULT'] == 'Rush, Fumble'])
+negative_plays = negative_plays.append(nonnegative_plays.loc[nonnegative_plays['RESULT'] == 'Sack, Fumble'])
+negative_plays = negative_plays.append(nonnegative_plays.loc[nonnegative_plays['RESULT'] == 'Scramble, Fumble'])
+
+negative_plays = negative_plays.append(nonnegative_plays.loc[nonnegative_plays['RESULT'] == 'Fumble, Def TD'])
+negative_plays = negative_plays.append(nonnegative_plays.loc[nonnegative_plays['RESULT'] == 'Complete, Fumble, Def TD'])
+negative_plays = negative_plays.append(nonnegative_plays.loc[nonnegative_plays['RESULT'] == 'Rush, Fumble, Def TD'])
+negative_plays = negative_plays.append(nonnegative_plays.loc[nonnegative_plays['RESULT'] == 'Sack, Fumble, Def TD'])
+negative_plays = negative_plays.append(nonnegative_plays.loc[nonnegative_plays['RESULT'] == 'Scramble, Fumble, Def TD'])
+
+negative_plays = negative_plays.append(nonnegative_plays.loc[nonnegative_plays['RESULT'] == 'Sack, Safety'])
+negative_plays = negative_plays.append(nonnegative_plays.loc[nonnegative_plays['RESULT'] == 'Rush, Safety'])
+negative_plays = negative_plays.append(nonnegative_plays.loc[nonnegative_plays['RESULT'] == 'Complete, Safety'])
+negative_plays = negative_plays.append(nonnegative_plays.loc[nonnegative_plays['RESULT'] == 'Scramble, Safety'])
+
+negative_plays = negative_plays.append(nonnegative_plays.loc[nonnegative_plays['RESULT'] == 'Interception'])
+negative_plays = negative_plays.append(nonnegative_plays.loc[nonnegative_plays['RESULT'] == 'Interception, Def TD'])
+
+negative_plays = negative_plays.sort_values( 'PLAY #')
+negative_plays = negative_plays.reset_index()
+del negative_plays['index']
+negative_plays.insert(len(negative_plays.columns), 'DRIVE RESULT', negative_results)
+print(negative_plays)
