@@ -3,12 +3,14 @@ import pandas as pd
 
 pd.set_option('display.max_rows', 1000)
 
-# Change the file name of the Excel sheet under 'file_name'
-file_name = "Practice2019.xlsx"
+# Change the file name of the Excel sheet of raw data under 'input_file_name'
+input_file_name = "Practice2019.xlsx"
 # The Excel file should be placed in a file called 'Data' the directory directly up the tree from this file
-file = "../Data/" + file_name
+file = "../Data/" + input_file_name
 # Make sure to specify the correct sheet name
 sheet = "LaVerne Drives"
+# Change the file name of the Excel sheet for the report under 'output_file_name'
+output_file_name = "output.xlsx"
 
 data = pd.read_excel(file, sheet, index_col = None, header = 0, na_values = ' ')
 data = data.sort_values('PLAY #')
@@ -77,8 +79,6 @@ formations = set(OFF_FORM)
 plays = set(OFF_PLAY)
 
 print('\n \n \n \n')
-
-print("******* DRIVE SUMMARY *******\n\n")
 
 drive_summary = []
 exp_run_results = []
@@ -244,6 +244,8 @@ while i+1 < len(PLAY_NUM):
 
             drive_summary.append(this_drive)
             break
+
+print("******* DRIVE SUMMARY *******\n\n")
 
 drive_summary = pd.DataFrame.from_records(drive_summary)
 drive_summary = drive_summary[['Play Count', 'Avg yd/play', 'Run', 'Pass', 'Explosives', 'Negatives', 'Drive Result']]
@@ -672,3 +674,20 @@ else:
     print("No data")
 
 print('\n\n\n\n')
+
+
+
+with pd.ExcelWriter('../Reports/' + output_file_name) as writer:
+    drive_summary.to_excel(writer, sheet_name='Drive Summary')
+    explosive_runs.to_excel(writer, sheet_name='Explosive Runs')
+    explosive_passes.to_excel(writer, sheet_name='Explosive Passes')
+    negative_plays.to_excel(writer, sheet_name='Negative Plays')
+    shot_plays.to_excel(writer, sheet_name='Shot Plays')
+    plays_in_redzone.to_excel(writer, sheet_name='Redzone')
+    plays_on_goalline.to_excel(writer, sheet_name='Goalline')
+    third_down.to_excel(writer, sheet_name='Third Down Total')
+    third_down_conversion.to_excel(writer, sheet_name='Third Down Conversions')
+    third_down_stop.to_excel(writer, sheet_name='Third Down Stops')
+    fourth_down.to_excel(writer, sheet_name='Fourth Down Total')
+    fourth_down_conversion.to_excel(writer, sheet_name='Fourth Down Conversions')
+    fourth_down_stop.to_excel(writer, sheet_name='Fourth Down Stops')
