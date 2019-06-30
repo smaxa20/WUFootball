@@ -6,13 +6,15 @@ pd.set_option('display.max_rows', 1000)
 # Change the file name of the Excel sheet of raw data under 'input_file_name'
 input_file_name = "Practice2019.xlsx"
 # The Excel file should be placed in a file called 'Data' the directory directly up the tree from this file
-file = "../Data/" + input_file_name
+input_file_name = "../Data/" + input_file_name
 # Make sure to specify the correct sheet name
 sheet = "LaVerne Drives"
-# Change the file name of the Excel sheet for the report under 'output_file_name'
-output_file_name = "output.xlsx"
+# Change the file name of the csv file for the report under 'output_file_name'
+output_file_name = "report.csv"
+# The report csv file will be place in a folder called 'Reports' in the directory directly up the tree from this file
+output_file_name = "../Reports/" + output_file_name
 
-data = pd.read_excel(file, sheet, index_col = None, header = 0, na_values = ' ')
+data = pd.read_excel(input_file_name, sheet, index_col = None, header = 0, na_values = ' ')
 data = data.sort_values('PLAY #')
 data = data.reset_index()
 del data['index']
@@ -676,18 +678,81 @@ else:
 print('\n\n\n\n')
 
 
+with open(output_file_name, 'a') as f:
+    if len(drive_summary) > 0:
+        f.write('Drive Summary,\n')
+        drive_summary.to_csv(f, index=False)
+    else:
+        f.write('No data for Drive Summary,\n')
 
-with pd.ExcelWriter('../Reports/' + output_file_name) as writer:
-    drive_summary.to_excel(writer, sheet_name='Drive Summary')
-    explosive_runs.to_excel(writer, sheet_name='Explosive Runs')
-    explosive_passes.to_excel(writer, sheet_name='Explosive Passes')
-    negative_plays.to_excel(writer, sheet_name='Negative Plays')
-    shot_plays.to_excel(writer, sheet_name='Shot Plays')
-    plays_in_redzone.to_excel(writer, sheet_name='Redzone')
-    plays_on_goalline.to_excel(writer, sheet_name='Goalline')
-    third_down.to_excel(writer, sheet_name='Third Down Total')
-    third_down_conversion.to_excel(writer, sheet_name='Third Down Conversions')
-    third_down_stop.to_excel(writer, sheet_name='Third Down Stops')
-    fourth_down.to_excel(writer, sheet_name='Fourth Down Total')
-    fourth_down_conversion.to_excel(writer, sheet_name='Fourth Down Conversions')
-    fourth_down_stop.to_excel(writer, sheet_name='Fourth Down Stops')
+    if len(explosive_runs) > 0:
+        f.write('\n,Explosive Runs,\n')
+        explosive_runs.to_csv(f, index=False)
+    else:
+        f.write('\n,No data for Explosive Runs,\n')
+
+    if len(explosive_passes) > 0:
+        f.write('\n,Explosive Passes,\n')
+        explosive_passes.to_csv(f, index=False)
+    else:
+        f.write('\n,No data for Explosive Passes,\n')
+
+    if len(negative_plays) > 0:
+        f.write('\n,Negative Plays,\n')
+        negative_plays.to_csv(f, index=False)
+    else:
+        f.write('\n,No data for Negative Plays,\n')
+
+    if len(shot_plays) > 0:
+        f.write('\n,Shot Plays,\n')
+        shot_plays.to_csv(f, index=False)
+    else:
+        f.write('\n,No data for Shot Plays,\n')
+
+    if len(plays_in_redzone) > 0:
+        f.write('\n,Redzone,\n')
+        plays_in_redzone.to_csv(f, index=False)
+    else:
+        f.write('\n,No data for Redzone,\n')
+
+    if len(plays_on_goalline) > 0:
+        f.write('\n,Goalline,\n')
+        plays_on_goalline.to_csv(f, index=False)
+    else:
+        f.write('\n,No data for Goalline,\n')
+
+    if len(third_down) > 0:
+        f.write('\n,Third Down Total,\n')
+        third_down.to_csv(f, index=False)
+    else:
+        f.write('\n,No data for Third Down Total,\n')
+
+    if len(third_down_conversion) > 0:
+        f.write('\n,Third Down Conversions,\n')
+        third_down_conversion.to_csv(f, index=False)
+    else:
+        f.write('\n,No data for Third Down Conversions,\n')
+
+    if len(third_down_stop) > 0:
+        f.write('\n,Third Down Stops,\n')
+        third_down_stop.to_csv(f, index=False)
+    else:
+        f.write('\n,No data for Third Down Stops,\n')
+
+    if len(fourth_down) > 0:
+        f.write('\n,Fourth Down Total,\n')
+        fourth_down.to_csv(f, index=False)
+    else:
+        f.write('\n,No data for Fourth Down Total,\n')
+
+    if len(fourth_down_conversion) > 0:
+        f.write('\n,Fourth Down Conversions,\n')
+        fourth_down_conversion.to_csv(f, index=False)
+    else:
+        f.write('\n,No data for Fourth Down Conversions,\n')
+
+    if len(fourth_down_stop) > 0:
+        f.write('\n,Fourth Down ,\n')
+        fourth_down_stop.to_csv(f, index=False)
+    else:
+        f.write('\n,No data for Fourth Down Stops,\n')
