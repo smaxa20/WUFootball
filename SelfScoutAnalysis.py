@@ -686,73 +686,73 @@ with open(output_file_name, 'a') as f:
         f.write('No data for Drive Summary,\n')
 
     if len(explosive_runs) > 0:
-        f.write('Explosive Runs,\n')
+        f.write('\nExplosive Runs,\n')
         explosive_runs.to_csv(f, index=False)
     else:
-        f.write('No data for Explosive Runs,\n')
+        f.write('\nNo data for Explosive Runs,\n')
 
     if len(explosive_passes) > 0:
-        f.write('Explosive Passes,\n')
+        f.write('\nExplosive Passes,\n')
         explosive_passes.to_csv(f, index=False)
     else:
-        f.write('No data for Explosive Passes,\n')
+        f.write('\nNo data for Explosive Passes,\n')
 
     if len(negative_plays) > 0:
-        f.write('Negative Plays,\n')
+        f.write('\nNegative Plays,\n')
         negative_plays.to_csv(f, index=False)
     else:
-        f.write('No data for Negative Plays,\n')
+        f.write('\nNo data for Negative Plays,\n')
 
     if len(shot_plays) > 0:
-        f.write('Shot Plays,\n')
+        f.write('\nShot Plays,\n')
         shot_plays.to_csv(f, index=False)
     else:
-        f.write('No data for Shot Plays,\n')
+        f.write('\nNo data for Shot Plays,\n')
 
     if len(plays_in_redzone) > 0:
-        f.write('Redzone,\n')
+        f.write('\nRedzone,\n')
         plays_in_redzone.to_csv(f, index=False)
     else:
-        f.write('No data for Redzone,\n')
+        f.write('\nNo data for Redzone,\n')
 
     if len(plays_on_goalline) > 0:
-        f.write('Goalline,\n')
+        f.write('\nGoalline,\n')
         plays_on_goalline.to_csv(f, index=False)
     else:
-        f.write('No data for Goalline,\n')
+        f.write('\nNo data for Goalline,\n')
 
     if len(third_down) > 0:
-        f.write('Third Down Total,\n')
+        f.write('\nThird Down Total,\n')
         third_down.to_csv(f, index=False)
     else:
-        f.write('No data for Third Down Total,\n')
+        f.write('\nNo data for Third Down Total,\n')
 
     if len(third_down_conversion) > 0:
-        f.write('Third Down Conversions,\n')
+        f.write('\nThird Down Conversions,\n')
         third_down_conversion.to_csv(f, index=False)
     else:
-        f.write('No data for Third Down Conversions,\n')
+        f.write('\nNo data for Third Down Conversions,\n')
 
     if len(third_down_stop) > 0:
-        f.write('Third Down Stops,\n')
+        f.write('\nThird Down Stops,\n')
         third_down_stop.to_csv(f, index=False)
     else:
-        f.write('No data for Third Down Stops,\n')
+        f.write('\nNo data for Third Down Stops,\n')
 
     if len(fourth_down) > 0:
-        f.write('Fourth Down Total,\n')
+        f.write('\nFourth Down Total,\n')
         fourth_down.to_csv(f, index=False)
     else:
-        f.write('No data for Fourth Down Total,\n')
+        f.write('\nNo data for Fourth Down Total,\n')
 
     if len(fourth_down_conversion) > 0:
-        f.write('Fourth Down Conversions,\n')
+        f.write('\nFourth Down Conversions,\n')
         fourth_down_conversion.to_csv(f, index=False)
     else:
-        f.write('No data for Fourth Down Conversions,\n')
+        f.write('\nNo data for Fourth Down Conversions,\n')
 
     if len(fourth_down_stop) > 0:
-        f.write('Fourth Down ,\n')
+        f.write('\nFourth Down ,\n')
         fourth_down_stop.to_csv(f, index=False)
     else:
-        f.write('No data for Fourth Down Stops,\n')
+        f.write('\nNo data for Fourth Down Stops,\n')
