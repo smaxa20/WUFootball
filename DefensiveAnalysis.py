@@ -87,7 +87,7 @@ fourth_down = data.loc[data['DN'] == 4]
 fourth_down_stop = not_first_down.loc[data['DN'] == 4]
 fourth_down_conversion = got_first_down.loc[data['DN'] == 4]
 
-print("\n\n\n\n******* Safety Alignment Report *******")
+# print("\n\n\n\n******* Safety Alignment Report *******")
 
 safety_alignment_report = []
 down = 0
@@ -134,12 +134,12 @@ while down < 5:
 
 safety_alignment_report = pd.DataFrame.from_records(safety_alignment_report)
 safety_alignment_report = safety_alignment_report[['', '0 Safeties', '1 Safety', '2 Safeties', '3 Safeties']]
-print(safety_alignment_report)
+# print(safety_alignment_report)
 
 
 
 
-print("\n\n\n\n******* Coverage Report *******")
+# print("\n\n\n\n******* Coverage Report *******")
 
 coverage_report = []
 coverage = 0
@@ -176,7 +176,7 @@ while coverage < 9:
 
 coverage_report = pd.DataFrame.from_records(coverage_report)
 coverage_report = coverage_report[['Coverage', '0 Safeties', '1 Safety', '2 Safeties', '3 Safeties']]
-print(coverage_report)
+# print(coverage_report)
 
 
 
@@ -262,7 +262,7 @@ while i+1 < len(PLAY_NUM):
 
 
 
-print("\n\n\n\n******* EXPLOSIVE PLAY REPORT *******")
+# print("\n\n\n\n******* EXPLOSIVE PLAY REPORT *******")
 
 run_plays = data.loc[data['PLAY TYPE'] == 'Run']
 run_plays = run_plays.loc[run_plays['GN/LS'] <= 110]
@@ -281,16 +281,16 @@ explosive_runs = explosive_runs.replace(1001, '--')
 explosive_passes.insert(len(explosive_passes.columns), 'DRIVE RESULT', exp_pass_results)
 explosive_passes = explosive_passes.replace(1001, '--')
 
-print("\n\n\n******* RUN PLAYS *******")
-print(explosive_runs)
+# print("\n\n\n******* RUN PLAYS *******")
+# print(explosive_runs)
 
-print("\n\n\n******* PASS PLAYS *******")
-print(explosive_passes)
-
-
+# print("\n\n\n******* PASS PLAYS *******")
+# print(explosive_passes)
 
 
-print("\n\n\n\n******* NEGATIVE PLAY REPORT *******\n\n\n")
+
+
+# print("\n\n\n\n******* NEGATIVE PLAY REPORT *******\n\n\n")
 
 negative_plays = data.loc[data['GN/LS'] < 0]
 nonnegative_plays = data.loc[data['GN/LS'] >= 0]
@@ -322,19 +322,19 @@ negative_plays = negative_plays.reset_index()
 del negative_plays['index']
 negative_plays.insert(len(negative_plays.columns), 'DRIVE RESULT', negative_results)
 negative_plays = negative_plays.replace(1001, '--')
-print(negative_plays)
+# print(negative_plays)
 
 
 
 
-print("\n\n\n\n******* SHOT PLAY REPORT *******\n\n\n")
+# print("\n\n\n\n******* SHOT PLAY REPORT *******\n\n\n")
 
 shot_plays = pass_plays.loc[pass_plays['GN/LS'] >= 20]
 shot_plays.insert(len(shot_plays.columns), 'DRIVE RESULT', shot_results)
 shot_plays = shot_plays.reset_index()
 del shot_plays['index']
 shot_plays = shot_plays.replace(1001, '--')
-print(shot_plays)
+# print(shot_plays)
 
 
 
