@@ -721,13 +721,22 @@ with open(output_file_name, 'a') as f:
         f.write('\nThird Down Total,\n')
         f.write('Conversion Rate:,')
         f.write(str(len(third_down_conversion)) + '/' + str(len(third_down)) + ',')
-        f.write(str(np.around(float(len(third_down_conversion)) / float(len(third_down)) * 100, 2)) + '%,\n')
+        if len(third_down != 0):
+            f.write(str(np.around(float(len(third_down_conversion)) / float(len(third_down)) * 100, 2)) + '%,\n')
+        else:
+            f.write('0.0%,\n')
         f.write('Rushing Conversion Rate:,')
         f.write(str(third_down_run_conversion_count) + '/' + str(third_down_run_count) + ',')
-        f.write(str(np.around(float(third_down_run_conversion_count) / float(third_down_run_count) * 100, 2)) + '%,\n')
+        if third_down_run_count != 0:
+            f.write(str(np.around(float(third_down_run_conversion_count) / float(third_down_run_count) * 100, 2)) + '%,\n')
+        else:
+            f.write('0.0%,\n')
         f.write('Passing Conversion Rate:,')
         f.write(str(third_down_conversions_pass_count) + '/' + str(third_down_pass_count) + ',')
-        f.write(str(np.around(float(third_down_conversions_pass_count) / float(third_down_pass_count) * 100, 2)) + '%,\n')
+        if third_down_pass_count != 0:
+            f.write(str(np.around(float(third_down_conversions_pass_count) / float(third_down_pass_count) * 100, 2)) + '%,\n')
+        else:
+            f.write('0.0%,\n')
         third_down.to_csv(f, index=False)
     else:
         f.write('\nNo data for Third Down Total,\n')
@@ -746,6 +755,24 @@ with open(output_file_name, 'a') as f:
 
     if len(fourth_down) > 0:
         f.write('\nFourth Down Total,\n')
+        f.write('Conversion Rate:,')
+        f.write(str(len(fourth_down_conversion)) + '/' + str(len(fourth_down)) + ',')
+        if len(fourth_down != 0):
+            f.write(str(np.around(float(len(fourth_down_conversion)) / float(len(fourth_down)) * 100, 2)) + '%,\n')
+        else:
+            f.write('0.0%,\n')
+        f.write('Rushing Conversion Rate:,')
+        f.write(str(fourth_down_run_conversion_count) + '/' + str(fourth_down_run_count) + ',')
+        if fourth_down_run_count != 0:
+            f.write(str(np.around(float(fourth_down_run_conversion_count) / float(fourth_down_run_count) * 100, 2)) + '%,\n')
+        else:
+            f.write('0.0%,\n')
+        f.write('Passing Conversion Rate:,')
+        f.write(str(fourth_down_conversions_pass_count) + '/' + str(fourth_down_pass_count) + ',')
+        if fourth_down_pass_count != 0:
+            f.write(str(np.around(float(fourth_down_conversions_pass_count) / float(fourth_down_pass_count) * 100, 2)) + '%,\n')
+        else:
+            f.write('0.0%,\n')
         fourth_down.to_csv(f, index=False)
     else:
         f.write('\nNo data for Fourth Down Total,\n')
