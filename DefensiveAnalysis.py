@@ -3,14 +3,18 @@ import pandas as pd
 
 pd.set_option('display.max_rows', 1000)
 
-# Change the file name of the Excel sheet under 'file_name'
-file_name = "GeorgeFox2018DefensiveBreakdown.xlsx"
+# Change the file name of the Excel sheet of raw data under 'input_file_name'
+input_file_name = "GeorgeFox2018DefensiveBreakdown.xlsx"
 # The Excel file should be placed in a file called 'Data' the directory directly up the tree from this file
-file = "../Data/" + file_name
+input_file_name = "../Data/" + input_file_name
 # Make sure to specify the correct sheet name
 sheet = "Fox Scout Data"
+# Change the file name of the csv file for the report under 'output_file_name'
+output_file_name = "report.csv"
+# The report csv file will be place in a folder called 'Reports' in the directory directly up the tree from this file
+output_file_name = "../Reports/" + output_file_name
 
-data = pd.read_excel(file, sheet, index_col = None, header = 0, na_values = ' ')
+data = pd.read_excel(input_file_name, sheet, index_col = None, header = 0, na_values = ' ')
 data = data.reset_index()
 del data['index']
 data = data.dropna(how = 'all')
@@ -331,3 +335,43 @@ shot_plays = shot_plays.reset_index()
 del shot_plays['index']
 shot_plays = shot_plays.replace(1001, '--')
 print(shot_plays)
+
+
+
+
+with open(output_file_name, 'a') as f:
+    if len(safety_alignment_report) > 0:
+        f.write('Safety Alignment Report,\n')
+        safety_alignment_report.to_csv(f, index=False)
+    else:
+        f.write('No data for Safety Alignment Report,\n')
+
+    if len(coverage_report) > 0:
+        f.write('\nCoverage Report,\n')
+        coverage_report.to_csv(f, index=False)
+    else:
+        f.write('\nNo data for Coverage Report,\n')
+
+    if len(explosive_runs) > 0:
+        f.write('\nExplosive Runs,\n')
+        explosive_runs.to_csv(f, index=False)
+    else:
+        f.write('\nNo data for Explosive Runs,\n')
+
+    if len(explosive_passes) > 0:
+        f.write('\nExplosive Passes,\n')
+        explosive_passes.to_csv(f, index=False)
+    else:
+        f.write('\nNo data for Explosive Passes,\n')
+
+    if len(negative_plays) > 0:
+        f.write('\nNegative Plays,\n')
+        negative_plays.to_csv(f, index=False)
+    else:
+        f.write('\nNo data for Negative Plays,\n')
+
+    if len(shot_plays) > 0:
+        f.write('\nShot Plays,\n')
+        shot_plays.to_csv(f, index=False)
+    else:
+        f.write('\nNo data for Shot Plays,\n')
