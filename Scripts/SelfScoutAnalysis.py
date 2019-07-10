@@ -6,13 +6,13 @@ pd.set_option('display.max_rows', 1000)
 # Change the file name of the Excel sheet of raw data under 'input_file_name'
 input_file_name = "Practice2019.xlsx"
 # The Excel file should be placed in a file called 'Data' the directory directly up the tree from this file
-input_file_name = "../Data/" + input_file_name
+input_file_name = "../../Data/" + input_file_name
 # Make sure to specify the correct sheet name
 sheet = "LaVerne Drives"
 # Change the file name of the csv file for the report under 'output_file_name'
 output_file_name = "report.csv"
 # The report csv file will be place in a folder called 'Reports' in the directory directly up the tree from this file
-output_file_name = "../Reports/" + output_file_name
+output_file_name = "../../Reports/" + output_file_name
 
 data = pd.read_excel(input_file_name, sheet, index_col = None, header = 0, na_values = ' ')
 data = data.sort_values('PLAY #')

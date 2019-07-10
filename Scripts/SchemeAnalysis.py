@@ -6,7 +6,7 @@ pd.set_option('display.max_rows', 1000)
 # Change the file name of the Excel sheet under 'file_name'
 file_name = "Practice2019.xlsx"
 # The Excel file should be placed in a file called 'Data' the directory directly up the tree from this file
-file = "../Data/" + file_name
+file = "../../Data/" + file_name
 # Make sure to specify the correct sheet name
 sheet = "Season Data Sheet"
 

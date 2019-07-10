@@ -4,7 +4,7 @@ import pandas as pd
 # Change the file name of the Excel sheet under 'file_name'
 file_name = "UCFDataSample.xlsx"
 # The Excel file should be placed in the directory directly up the tree from this file
-file = "../" + file_name
+file = "../../Data/" + file_name
 # Make sure to specify the correct sheet name
 sheet = "UCF Data Sample"
 
