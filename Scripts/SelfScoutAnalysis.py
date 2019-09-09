@@ -80,7 +80,7 @@ fourth_down_conversion = fourth_down_conversion.loc[fourth_down_conversion['ODK'
 formations = set(OFF_FORM)
 plays = set(OFF_PLAY)
 
-# print('\n \n \n \n')
+print('\n \n \n \n')
 
 drive_summary = []
 exp_run_results = []
@@ -247,19 +247,18 @@ while i+1 < len(PLAY_NUM):
             drive_summary.append(this_drive)
             break
 
-# print("******* DRIVE SUMMARY *******\n\n")
+print("Large loop finished.\n\n")
 
+# DRIVE SUMMARY
 drive_summary = pd.DataFrame.from_records(drive_summary)
 drive_summary = drive_summary[['Play Count', 'Avg yd/play', 'Run', 'Pass', 'Explosives', 'Negatives', 'Drive Result']]
 drive_summary.reset_index()
-# del drive_summary['index']
-# print(drive_summary)
+print("Drive Summary finished.\n\n")
 
 
 
 
-# print("\n\n\n\n******* EXPLOSIVE PLAY REPORT *******")
-
+# EXPLOSIVE PLAY REPORT
 run_plays = data.loc[data['PLAY TYPE'] == 'Run']
 explosive_runs = run_plays.loc[run_plays['GN/LS'] >= 12]
 explosive_runs = explosive_runs.reset_index()
@@ -270,18 +269,14 @@ explosive_passes = explosive_passes.reset_index()
 del explosive_passes['index']
 
 explosive_runs.insert(len(explosive_runs.columns), 'DRIVE RESULT', exp_run_results)
+print("Explosive Runs finished.\n\n")
 explosive_passes.insert(len(explosive_passes.columns), 'DRIVE RESULT', exp_pass_results)
-
-# print("\n\n\n******* RUN PLAYS *******")
-# print(explosive_runs)
-
-# print("\n\n\n******* PASS PLAYS *******")
-# print(explosive_passes)
+print("Explosive Passes finished.\n\n")
 
 
 
-# print("\n\n\n\n******* NEGATIVE PLAY REPORT *******\n\n\n")
 
+# NEGATIVE PLAY REPORT
 negative_plays = data.loc[data['GN/LS'] < 0]
 nonnegative_plays = data.loc[data['GN/LS'] >= 0]
 
@@ -311,367 +306,126 @@ negative_plays = negative_plays.sort_values( 'PLAY #')
 negative_plays = negative_plays.reset_index()
 del negative_plays['index']
 negative_plays.insert(len(negative_plays.columns), 'DRIVE RESULT', negative_results)
-# print(negative_plays)
+print("Negative Play Report finished.\n\n")
 
 
 
-# print("\n\n\n\n******* SHOT PLAY REPORT *******\n\n\n")
-
+# SHOT PLAY REPORT
 shot_plays = pass_plays.loc[pass_plays['GN/LS'] >= 20]
 shot_plays.insert(len(shot_plays.columns), 'DRIVE RESULT', shot_results)
 shot_plays = shot_plays.reset_index()
 del shot_plays['index']
-# print(shot_plays)
+print("Shot Play Report finished.\n\n")
 
 
 
 
-# print("\n\n\n\n******* RED ZONE REPORT *******\n\n\n")
-
+# RED ZONE REPORT
 plays_in_redzone = data.loc[data['YARD LN'] <= 25]
 plays_in_redzone = plays_in_redzone.loc[plays_in_redzone['YARD LN'] > 0]
 plays_in_redzone = plays_in_redzone.loc[plays_in_redzone['PLAY TYPE'] != 'Extra Pt.']
 plays_in_redzone.insert(len(plays_in_redzone.columns), 'DRIVE RESULT', redzone_results)
 plays_in_redzone = plays_in_redzone.reset_index()
 del plays_in_redzone['index']
-# print(plays_in_redzone)
+print("Red Zone Report finshed.\n\n")
 
 
 
 
-# print("\n\n\n\n ******* GOAL LINE REPORT *******\n\n\n")
-
+# GOAL LINE REPORT
 plays_on_goalline = data.loc[data['YARD LN'] <= 5]
 plays_on_goalline = plays_on_goalline.loc[plays_on_goalline['YARD LN'] > 0]
 plays_on_goalline = plays_on_goalline.loc[plays_on_goalline['PLAY TYPE'] != 'Extra Pt.']
 plays_on_goalline.insert(len(plays_on_goalline.columns), 'DRIVE RESULT', goalline_results)
 plays_on_goalline = plays_on_goalline.reset_index()
 del plays_on_goalline['index']
-# print(plays_on_goalline)
+print("Goal Line Report finished.\n\n")
 
 
 
 
-# print("\n\n\n\n******* 3RD DOWN REPORT *******")
-
-# if len(third_down) != 0:
-#     string = np.array(["Conversion Rate: ", len(third_down_conversion), "/", len(third_down), " = ", np.around(float(len(third_down_conversion)) / float(len(third_down)) * 100, 2), "%"])
-# else:
-#     string = np.array(["Conversion Rate: ", len(third_down_conversion), "/", len(third_down), " = 0.0%"])
-# print(''.join(string))
-
+# 3RD DOWN REPORT
 third_down_run_count = third_down.loc[third_down['PLAY TYPE'] == 'Run'].size / 11
 third_down_run_conversion_count = third_down_conversion.loc[third_down_conversion['PLAY TYPE'] == 'Run'].size / 11
-# if third_down_run_count != 0:
-#     string = np.array(["Rushing Conversion Rate: ", third_down_run_conversion_count, "/", third_down_run_count, " = ", np.around(float(third_down_run_conversion_count) / float(third_down_run_count) * 100, 2), "%"])
-# else:
-#     string = np.array(["Rushing Conversion Rate: ", third_down_run_conversion_count, "/", third_down_run_count, " = 0.0%"])
-# print(''.join(string))
-
 third_down_pass_count = third_down.loc[third_down['PLAY TYPE'] == 'Pass'].size / 11
 pass_conversion_count = third_down_conversion.loc[third_down_conversion['PLAY TYPE'] == 'Pass'].size / 11
-# if third_down_pass_count != 0:
-#     string = np.array(["Passing Conversion Rate: ", pass_conversion_count, "/", third_down_pass_count, " = ", np.around(float(pass_conversion_count) / float(third_down_pass_count) * 100, 2), "%"])
-# else:
-#     string = np.array(["Passing Conversion Rate: ", pass_conversion_count, "/", third_down_pass_count, " = 0.0%"])
-# print(''.join(string))
-# print('\n\n')
 
 
-# print("TOTAL\n")
-
-# count = len(third_down)
-# string = np.array(["Total plays:", count])
-# print(' '.join(string))
-
-# string = np.array(["Run plays:", third_down_run_count])
-# print(' '.join(string))
-
-# string = np.array(["Pass plays:", third_down_pass_count])
-# print(' '.join(string))
-# print('\n')
-
+# TOTAL
 third_down = third_down.reset_index()
 del third_down['index']
 
 if len(third_down) > 0:
     third_down.insert(len(third_down.columns), 'DRIVE RESULT', third_down_results)
-    # print(third_down)
-    # print("\nNumber of times that each formation was used:")
-#     container = []
-#     i = 0
-#     for form in formations:
-#         container.append(third_down.loc[third_down['OFF FORM'] == form])
-#         form_count = container[i].loc[:'OFF FORM']
-#         if len(form_count) != 0:
-#             string = np.array([form, ": ", len(form_count)])
-#             print(''.join(string))
-#         i += 1
-#     print("\nNumber of times that each play was used:")
-#     container = []
-#     i = 0
-#     for play in plays:
-#         container.append(third_down.loc[third_down['OFF PLAY'] == play])
-#         play_count = container[i].loc[:'OFF PLAY']
-#         if len(play_count) != 0:
-#             string = np.array([play, ": ", len(play_count)])
-#             print(''.join(string))
-#         i += 1
-# else:
-#     print("No data")
+print("Third Down Total finshed\n")
 
 
-# print("\n\n\n******* GAINED FIRST DOWN *******\n")
-
-# count = len(third_down_conversion)
-# string = np.array(["Total plays:", count])
-# print(' '.join(string))
-
+# GAINED FIRST DOWN
 third_down_conversions_run_count = third_down_conversion.loc[third_down_conversion['PLAY TYPE'] == 'Run'].size / 11
-# string = np.array(["Run plays:", third_down_conversions_run_count])
-# print(' '.join(string))
-
 third_down_conversions_pass_count = third_down_conversion.loc[third_down_conversion['PLAY TYPE'] == 'Pass'].size / 11
-# string = np.array(["Pass plays:", third_down_conversions_pass_count])
-# print(' '.join(string))
-# print('\n')
 
 third_down_conversion = third_down_conversion.reset_index()
 del third_down_conversion['index']
 
 if len(third_down_conversion) > 0:
     third_down_conversion.insert(len(third_down_conversion.columns), 'DRIVE RESULT', third_down_conversion_results)
-#     print(third_down_conversion)
-#     print("\nNumber of times that each formation was used:")
-#     container = []
-#     i = 0
-#     for form in formations:
-#         container.append(third_down_conversion.loc[third_down_conversion['OFF FORM'] == form])
-#         form_count = container[i].loc[:'OFF FORM']
-#         if len(form_count) != 0:
-#             string = np.array([form, ": ", len(form_count)])
-#             print(''.join(string))
-#         i += 1
-#     print("\nNumber of times that each play was used:")
-#     container = []
-#     i = 0
-#     for play in plays:
-#         container.append(third_down_conversion.loc[third_down_conversion['OFF PLAY'] == play])
-#         play_count = container[i].loc[:'OFF PLAY']
-#         if len(play_count) != 0:
-#             string = np.array([play, ": ", len(play_count)])
-#             print(''.join(string))
-#         i += 1
-# else:
-#     print("No data")
+print("Third Down Conversions finished.\n")
 
 
-# print("\n\n\n******* STOPPED SHORT *******\n")
-
-# count = len(third_down_stop)
-# string = np.array(["Total plays:", count])
-# print(' '.join(string))
-
+# STOPPED SHORT
 third_down_stops_run_count = third_down_stop.loc[third_down_stop['PLAY TYPE'] == 'Run'].size / 11
-# string = np.array(["Run plays:", third_down_stops_run_count])
-# print(' '.join(string))
-
 third_down_stops_pass_count = third_down_stop.loc[third_down_stop['PLAY TYPE'] == 'Pass'].size / 11
-# string = np.array(["Pass plays:", third_down_stops_pass_count])
-# print(' '.join(string))
-# print('\n')
 
 third_down_stop = third_down_stop.reset_index()
 del third_down_stop['index']
 
 if len(third_down_stop) > 0:
     third_down_stop.insert(len(third_down_stop.columns), 'DRIVE RESULT', third_down_stop_results)
-#     print(third_down_stop)
-#     print("\nNumber of times that each formation was used:")
-#     container = []
-#     i = 0
-#     for form in formations:
-#         container.append(third_down_stop.loc[third_down_stop['OFF FORM'] == form])
-#         form_count = container[i].loc[:'OFF FORM']
-#         if len(form_count) != 0:
-#             string = np.array([form, ": ", len(form_count)])
-#             print(''.join(string))
-#         i += 1
-#     print("\nNumber of times that each play was used:")
-#     container = []
-#     i = 0
-#     for play in plays:
-#         container.append(third_down_stop.loc[third_down_stop['OFF PLAY'] == play])
-#         play_count = container[i].loc[:'OFF PLAY']
-#         if len(play_count) != 0:
-#             string = np.array([play, ": ", len(play_count)])
-#             print(''.join(string))
-#         i += 1
-# else:
-#     print("No data")
+print("Third Down Stops finished.\n")
+print("Third Down Report finished.\n\n")
 
 
 
 
-# print("\n\n\n\n******* 4th DOWN REPORT *******")
-
-# if len(fourth_down) != 0:
-#     string = np.array(["Conversion Rate: ", len(fourth_down_conversion), "/", len(fourth_down), " = ", np.around(float(len(fourth_down_conversion)) / float(len(fourth_down)) * 100, 2), "%"])
-# else:
-#     string = np.array(["Conversion Rate: ", len(fourth_down_conversion), "/", len(fourth_down), " = 0.0%"])
-# print(''.join(string))
-
+# 4th DOWN REPORT
 fourth_down_run_count = fourth_down.loc[fourth_down['PLAY TYPE'] == 'Run'].size / 11
 fourth_down_run_conversion_count = fourth_down_conversion.loc[fourth_down_conversion['PLAY TYPE'] == 'Run'].size / 11
-# if fourth_down_run_count != 0:
-#     string = np.array(["Rushing Conversion Rate: ", fourth_down_run_conversion_count, "/", fourth_down_run_count, " = ", np.around(float(fourth_down_run_conversion_count) / float(fourth_down_run_count) * 100, 2), "%"])
-# else:
-#     string = np.array(["Rushing Conversion Rate: ", fourth_down_run_conversion_count, "/", fourth_down_run_count, " = 0.0%"])
-# print(''.join(string))
-
 fourth_down_pass_count = fourth_down.loc[fourth_down['PLAY TYPE'] == 'Pass'].size / 11
 pass_conversion_count = fourth_down_conversion.loc[fourth_down_conversion['PLAY TYPE'] == 'Pass'].size / 11
-# if fourth_down_pass_count != 0:
-#     string = np.array(["Passing Conversion Rate: ", pass_conversion_count, "/", fourth_down_pass_count, " = ", np.around(float(pass_conversion_count) / float(pass_count) * 100, 2), "%"])
-# else:
-#     string = np.array(["Passing Conversion Rate: ", pass_conversion_count, "/", fourth_down_pass_count, " = 0.0%"])
-# print(''.join(string))
-# print('\n\n')
 
-
-# print("TOTAL\n")
-
-# count = len(fourth_down)
-# string = np.array(["Total plays:", count])
-# print(' '.join(string))
-
-# string = np.array(["Run plays:", fourth_down_run_count])
-# print(' '.join(string))
-
-# string = np.array(["Pass plays:", fourth_down_pass_count])
-# print(' '.join(string))
-# print('\n')
-
+# TOTAL
 fourth_down = fourth_down.reset_index()
 del fourth_down['index']
 
 if len(fourth_down) > 0:
     fourth_down.insert(len(fourth_down.columns), 'DRIVE RESULT', fourth_down_results)
-#     print(fourth_down)
-#     print("\nNumber of times that each formation was used:")
-#     container = []
-#     i = 0
-#     for form in formations:
-#         container.append(fourth_down.loc[fourth_down['OFF FORM'] == form])
-#         form_count = container[i].loc[:'OFF FORM']
-#         if len(form_count) != 0:
-#             string = np.array([form, ": ", len(form_count)])
-#             print(''.join(string))
-#         i += 1
-#     print("\nNumber of times that each play was used:")
-#     container = []
-#     i = 0
-#     for play in plays:
-#         container.append(fourth_down.loc[fourth_down['OFF PLAY'] == play])
-#         play_count = container[i].loc[:'OFF PLAY']
-#         if len(play_count) != 0:
-#             string = np.array([play, ": ", len(play_count)])
-#             print(''.join(string))
-#         i += 1
-# else:
-#     print("No data")
+print("Fourth Down Total finished.\n")
 
 
-# print("\n\n\n******* GAINED FIRST DOWN *******\n")
-
-# count = len(fourth_down_conversion)
-# string = np.array(["Total plays:", count])
-# print(' '.join(string))
-
+# GAINED FIRST DOWN
 fourth_down_conversions_run_count = fourth_down_conversion.loc[fourth_down_conversion['PLAY TYPE'] == 'Run'].size / 11
-# string = np.array(["Run plays:", fourth_down_conversions_run_count])
-# print(' '.join(string))
-
 fourth_down_conversions_pass_count = fourth_down_conversion.loc[fourth_down_conversion['PLAY TYPE'] == 'Pass'].size / 11
-# string = np.array(["Pass plays:", fourth_down_conversions_pass_count])
-# print(' '.join(string))
-# print('\n')
 
 fourth_down_conversion = fourth_down_conversion.reset_index()
 del fourth_down_conversion['index']
 
 if len(fourth_down_conversion) > 0:
     fourth_down_conversion.insert(len(fourth_down_conversion.columns), 'DRIVE RESULT', fourth_down_conversion_results)
-#     print(fourth_down_conversion)
-#     print("\nNumber of times that each formation was used:")
-#     container = []
-#     i = 0
-#     for form in formations:
-#         container.append(fourth_down_conversion.loc[fourth_down_conversion['OFF FORM'] == form])
-#         form_count = container[i].loc[:'OFF FORM']
-#         if len(form_count) != 0:
-#             string = np.array([form, ": ", len(form_count)])
-#             print(''.join(string))
-#         i += 1
-#     print("\nNumber of times that each play was used:")
-#     container = []
-#     i = 0
-#     for play in plays:
-#         container.append(fourth_down_conversion.loc[fourth_down_conversion['OFF PLAY'] == play])
-#         play_count = container[i].loc[:'OFF PLAY']
-#         if len(play_count) != 0:
-#             string = np.array([play, ": ", len(play_count)])
-#             print(''.join(string))
-#         i += 1
-# else:
-#     print("No data")
+print("Fourth Down Conversions finished.\n")
 
 
-# print("\n\n\n******* STOPPED SHORT *******\n")
-
-# count = len(fourth_down_stop)
-# string = np.array(["Total plays:", count])
-# print(' '.join(string))
-
+# STOPPED SHORT
 fourth_down_stops_run_count = fourth_down_stop.loc[fourth_down_stop['PLAY TYPE'] == 'Run'].size / 11
-# string = np.array(["Run plays:", fourth_down_stops_run_count])
-# print(' '.join(string))
-
 fourth_down_stops_pass_count = fourth_down_stop.loc[fourth_down_stop['PLAY TYPE'] == 'Pass'].size / 11
-# string = np.array(["Pass plays:", fourth_down_stops_pass_count])
-# print(' '.join(string))
-# print('\n')
 
 fourth_down_stop = fourth_down_stop.reset_index()
 del fourth_down_stop['index']
 
 if len(fourth_down_stop) > 0:
     fourth_down_stop.insert(len(fourth_down_stop.columns), 'DRIVE RESULT', fourth_down_stop_results)
-#     print(fourth_down_stop)
-#     print("\nNumber of times that each formation was used:")
-#     container = []
-#     i = 0
-#     for form in formations:
-#         container.append(fourth_down_stop.loc[fourth_down_stop['OFF FORM'] == form])
-#         form_count = container[i].loc[:'OFF FORM']
-#         if len(form_count) != 0:
-#             string = np.array([form, ": ", len(form_count)])
-#             print(''.join(string))
-#         i += 1
-#     print("\nNumber of times that each play was used:")
-#     container = []
-#     i = 0
-#     for play in plays:
-#         container.append(fourth_down_stop.loc[fourth_down_stop['OFF PLAY'] == play])
-#         play_count = container[i].loc[:'OFF PLAY']
-#         if len(play_count) != 0:
-#             string = np.array([play, ": ", len(play_count)])
-#             print(''.join(string))
-#         i += 1
-# else:
-#     print("No data")
+print("Fourth Down Stops finished.\n")
+print("Fourth Down Report finished.\n\n")
 
-# print('\n\n\n\n')
 
 
 with open(output_file_name, 'a') as f:
@@ -788,3 +542,5 @@ with open(output_file_name, 'a') as f:
         fourth_down_stop.to_csv(f, index=False)
     else:
         f.write('\nNo data for Fourth Down Stops,\n')
+
+print("Write to File finished.\n\n")
