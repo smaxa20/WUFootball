@@ -161,18 +161,32 @@ while i+1 < len(PLAY_NUM):
                 result = 'Scramble TD'
             elif result == 'Good' and PLAY_TYPE[i] == 'Extra Pt.':
                 if RESULT[i-1] == 'Complete, TD':
-                    result = 'Pass TD + PAT'
+                    result = 'Pass TD, PAT Good'
                 elif RESULT[i-1] == 'Rush, TD':
-                    result = 'Rush TD + PAT'
+                    result = 'Rush TD, PAT Good'
                 elif RESULT[i-1] == 'Scramble, TD':
-                    result = 'Scramble TD + PAT'
+                    result = 'Scramble TD, PAT Good'
             elif result == 'Miss' and PLAY_TYPE[i] == 'Extra Pt.':
                 if RESULT[i-1] == 'Complete, TD':
-                    result = 'Pass TD - PAT'
+                    result = 'Pass TD, PAT No Good'
                 elif RESULT[i-1] == 'Rush, TD':
-                    result = 'Rush TD - PAT'
+                    result = 'Rush TD, PAT No Good'
                 elif RESULT[i-1] == 'Scramble, TD':
-                    result = 'Scramble TD - PAT'
+                    result = 'Scramble TD, PAT No Good'
+            elif result == 'Good' and PLAY_TYPE[i] == '2 Pt.':
+                if RESULT[i-1] == 'Complete, TD':
+                    result = 'Pass TD, 2pt Conversion Good'
+                elif RESULT[i-1] == 'Rush, TD':
+                    result = 'Rush TD, 2pt Conversion Good'
+                elif RESULT[i-1] == 'Scramble, TD':
+                    result = 'Scramble TD, 2pt Conversion Good'
+            elif result == 'Miss' and PLAY_TYPE[i] == 'Extra Pt.':
+                if RESULT[i-1] == 'Complete, TD':
+                    result = 'Pass TD, 2pt Conversion No Good'
+                elif RESULT[i-1] == 'Rush, TD':
+                    result = 'Rush TD, 2pt Conversion No Good'
+                elif RESULT[i-1] == 'Scramble, TD':
+                    result = 'Scramble TD, 2pt Conversion No Good'
             elif result == 'Good' and PLAY_TYPE[i] == 'FG':
                 result = 'Made FG'
             elif result == 'Miss' and PLAY_TYPE[i] == 'FG':
