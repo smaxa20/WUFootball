@@ -166,7 +166,7 @@ while i+1 < len(PLAY_NUM):
                     result = 'Rush TD, PAT Good'
                 elif RESULT[i-1] == 'Scramble, TD':
                     result = 'Scramble TD, PAT Good'
-            elif result == 'Miss' and PLAY_TYPE[i] == 'Extra Pt.':
+            elif result == 'Miss' or result == 'No Good' and PLAY_TYPE[i] == 'Extra Pt.':
                 if RESULT[i-1] == 'Complete, TD':
                     result = 'Pass TD, PAT No Good'
                 elif RESULT[i-1] == 'Rush, TD':
@@ -180,7 +180,7 @@ while i+1 < len(PLAY_NUM):
                     result = 'Rush TD, 2pt Conversion Good'
                 elif RESULT[i-1] == 'Scramble, TD':
                     result = 'Scramble TD, 2pt Conversion Good'
-            elif result == 'Miss' and PLAY_TYPE[i] == 'Extra Pt.':
+            elif result == 'Miss' and PLAY_TYPE[i] == '2 Pt.':
                 if RESULT[i-1] == 'Complete, TD':
                     result = 'Pass TD, 2pt Conversion No Good'
                 elif RESULT[i-1] == 'Rush, TD':
