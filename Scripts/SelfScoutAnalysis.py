@@ -80,8 +80,6 @@ fourth_down_conversion = fourth_down_conversion.loc[fourth_down_conversion['ODK'
 formations = set(OFF_FORM)
 plays = set(OFF_PLAY)
 
-print('\n \n \n \n')
-
 drive_summary = []
 exp_run_results = []
 exp_pass_results = []
@@ -261,13 +259,13 @@ while i+1 < len(PLAY_NUM):
             drive_summary.append(this_drive)
             break
 
-print("Large loop finished.\n\n")
+print("Large loop finished.")
 
 # DRIVE SUMMARY
 drive_summary = pd.DataFrame.from_records(drive_summary)
 drive_summary = drive_summary[['Play Count', 'Avg yd/play', 'Run', 'Pass', 'Explosives', 'Negatives', 'Drive Result']]
 drive_summary.reset_index()
-print("Drive Summary finished.\n\n")
+print("Drive Summary finished.")
 
 
 
@@ -283,9 +281,9 @@ explosive_passes = explosive_passes.reset_index()
 del explosive_passes['index']
 
 explosive_runs.insert(len(explosive_runs.columns), 'DRIVE RESULT', exp_run_results)
-print("Explosive Runs finished.\n\n")
+print("Explosive Runs finished.")
 explosive_passes.insert(len(explosive_passes.columns), 'DRIVE RESULT', exp_pass_results)
-print("Explosive Passes finished.\n\n")
+print("Explosive Passes finished.")
 
 
 
@@ -320,7 +318,7 @@ negative_plays = negative_plays.sort_values( 'PLAY #')
 negative_plays = negative_plays.reset_index()
 del negative_plays['index']
 negative_plays.insert(len(negative_plays.columns), 'DRIVE RESULT', negative_results)
-print("Negative Play Report finished.\n\n")
+print("Negative Play Report finished.")
 
 
 
@@ -329,7 +327,7 @@ shot_plays = pass_plays.loc[pass_plays['GN/LS'] >= 20]
 shot_plays.insert(len(shot_plays.columns), 'DRIVE RESULT', shot_results)
 shot_plays = shot_plays.reset_index()
 del shot_plays['index']
-print("Shot Play Report finished.\n\n")
+print("Shot Play Report finished.")
 
 
 
@@ -341,7 +339,7 @@ plays_in_redzone = plays_in_redzone.loc[plays_in_redzone['PLAY TYPE'] != 'Extra 
 plays_in_redzone.insert(len(plays_in_redzone.columns), 'DRIVE RESULT', redzone_results)
 plays_in_redzone = plays_in_redzone.reset_index()
 del plays_in_redzone['index']
-print("Red Zone Report finshed.\n\n")
+print("Red Zone Report finshed.")
 
 
 
@@ -353,7 +351,7 @@ plays_on_goalline = plays_on_goalline.loc[plays_on_goalline['PLAY TYPE'] != 'Ext
 plays_on_goalline.insert(len(plays_on_goalline.columns), 'DRIVE RESULT', goalline_results)
 plays_on_goalline = plays_on_goalline.reset_index()
 del plays_on_goalline['index']
-print("Goal Line Report finished.\n\n")
+print("Goal Line Report finished.")
 
 
 
@@ -371,7 +369,7 @@ del third_down['index']
 
 if len(third_down) > 0:
     third_down.insert(len(third_down.columns), 'DRIVE RESULT', third_down_results)
-print("Third Down Total finshed\n")
+print("Third Down Total finshed")
 
 
 # GAINED FIRST DOWN
@@ -383,7 +381,7 @@ del third_down_conversion['index']
 
 if len(third_down_conversion) > 0:
     third_down_conversion.insert(len(third_down_conversion.columns), 'DRIVE RESULT', third_down_conversion_results)
-print("Third Down Conversions finished.\n")
+print("Third Down Conversions finished.")
 
 
 # STOPPED SHORT
@@ -395,8 +393,8 @@ del third_down_stop['index']
 
 if len(third_down_stop) > 0:
     third_down_stop.insert(len(third_down_stop.columns), 'DRIVE RESULT', third_down_stop_results)
-print("Third Down Stops finished.\n")
-print("Third Down Report finished.\n\n")
+print("Third Down Stops finished.")
+print("Third Down Report finished.")
 
 
 
@@ -413,7 +411,7 @@ del fourth_down['index']
 
 if len(fourth_down) > 0:
     fourth_down.insert(len(fourth_down.columns), 'DRIVE RESULT', fourth_down_results)
-print("Fourth Down Total finished.\n")
+print("Fourth Down Total finished.")
 
 
 # GAINED FIRST DOWN
@@ -425,7 +423,7 @@ del fourth_down_conversion['index']
 
 if len(fourth_down_conversion) > 0:
     fourth_down_conversion.insert(len(fourth_down_conversion.columns), 'DRIVE RESULT', fourth_down_conversion_results)
-print("Fourth Down Conversions finished.\n")
+print("Fourth Down Conversions finished.")
 
 
 # STOPPED SHORT
@@ -437,8 +435,8 @@ del fourth_down_stop['index']
 
 if len(fourth_down_stop) > 0:
     fourth_down_stop.insert(len(fourth_down_stop.columns), 'DRIVE RESULT', fourth_down_stop_results)
-print("Fourth Down Stops finished.\n")
-print("Fourth Down Report finished.\n\n")
+print("Fourth Down Stops finished.")
+print("Fourth Down Report finished.")
 
 
 
@@ -557,4 +555,4 @@ with open(output_file_name, 'a') as f:
     else:
         f.write('\nNo data for Fourth Down Stops,\n')
 
-print("Write to File finished.\n\n")
+print("Write to File finished.")
