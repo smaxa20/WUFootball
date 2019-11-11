@@ -178,7 +178,7 @@ while i+1 < len(PLAY_NUM):
                     result = 'Rush TD, 2pt Conversion Good'
                 elif RESULT[i-1] == 'Scramble, TD':
                     result = 'Scramble TD, 2pt Conversion Good'
-            elif result == 'Miss' and PLAY_TYPE[i] == '2 Pt.':
+            elif result == 'Miss' or result == 'No Good' and PLAY_TYPE[i] == '2 Pt.':
                 if RESULT[i-1] == 'Complete, TD':
                     result = 'Pass TD, 2pt Conversion No Good'
                 elif RESULT[i-1] == 'Rush, TD':
@@ -206,7 +206,7 @@ while i+1 < len(PLAY_NUM):
 
             RESULT[i] = result
 
-        if (GN_LS[i] < 0 or result == 'Fumble' or result == 'Fumble, Def TD' or result == 'INT' or result == 'INT, Def TD' or result == 'Safety') and ODK[i] == 'O':
+        if (GN_LS[i] < 0 or result == 'Fumble' or result == 'Fumble, Def TD' or result == 'INT' or result == 'INT, Def TD' or result == 'Safety'):
             negative_count += 1
 
         if i+1 == len(PLAY_NUM) or PLAY_NUM[i+1] - PLAY_NUM[i] > 1 or result == 'Fumble' or result == 'Complete, Fumble' or result == 'Rush, Fumble' or result == 'Sack, Fumble' or result == 'Scramble, Fumble' or result == 'Fumble, Def TD' or result == 'Complete, Fumble, Def TD' or result == 'Rush, Fumble, TD' or result == 'Sack, Fumble, Def TD' or result == 'Scramble, Fumble, Def TD' or result == 'Interception' or result == "interception, Def TD" or result == 'Sack, Safety' or result == 'Rush, Safety' or result == 'Complete, Safety' or result == 'Scramble, Safety':
